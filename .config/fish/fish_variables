@@ -1,0 +1,10 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR __fish_initialized:4300
+SETUVAR fish_color_autosuggestion:555555\x1ebrblack
+SETUVAR fish_color_command:008000
+SETUVAR fish_color_comment:808080
+SETUVAR fish_color_error:ff0000
+SETUVAR fish_color_param:00ffff
+SETUVAR fish_greeting:\x1d
+SETUVAR fish_user_paths:/usr/lib/ccache/bin/\x1e/home/chachi/\x2ecargo/bin/\x1e/home/chachi/\x2elocal/bin/
