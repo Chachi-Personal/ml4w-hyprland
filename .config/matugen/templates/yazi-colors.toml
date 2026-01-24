@@ -1,12 +1,17 @@
+# : Complete Yazi Theme [[[
+
+# : App [[[
+
+[app]
+overall = { bg = "{{colors.surface.default.hex}}" }
+
+# : ]]]
+
+
 # : Manager [[[
 
-[manager]
+[mgr]
 cwd = { fg = "{{colors.on_surface.default.hex}}" }
-
-# Tab
-tab_active = { fg = "{{colors.on_primary.default.hex}}", bg = "{{colors.primary.default.hex}}", bold = true }
-tab_inactive = { fg = "{{colors.primary_fixed.default.hex}}", bg = "{{colors.on_primary_fixed.default.hex}}" }
-tab_width = 1
 
 # Find
 find_keyword = { fg = "{{colors.error.default.hex}}", bold = true, italic = true, underline = true }
@@ -29,13 +34,41 @@ border_style = { fg = "{{colors.surface_tint.default.hex}}" }
 
 # : ]]]
 
+# : Tabs [[[
+
+[tabs]
+active = { fg = "{{colors.on_primary.default.hex}}", bg = "{{colors.primary.default.hex}}", bold = true }
+inactive = { fg = "{{colors.primary_fixed.default.hex}}", bg = "{{colors.on_primary_fixed.default.hex}}" }
+# width = 1
+
+# : ]]]
+
 
 # : Status [[[
 
 [status]
-separator_open = "🭁"
-separator_close = "🭠"
-separator_style = { bg = "{{colors.on_primary.default.hex}}", fg = "#F4A261" }
+overall = { bg = "{{colors.on_primary.default.hex}}", fg = "#F4A261" }
+sep_left = { open = "🭁", close = "" }
+sep_right = { open = "", close = "🭠" }
+# separator_open = "🭁"
+# separator_close = "🭠"
+
+# Permissions
+perm_type = { fg = "{{colors.secondary.default.hex | auto_lightness: 30.0}}" }
+perm_write = { fg = "{{colors.tertiary.default.hex | auto_lightness: 30.0}}" }
+perm_exec = { fg = "{{colors.error.default.hex | auto_lightness: 30.0}}" }
+perm_read = { fg = "{{colors.tertiary_fixed.default.hex | auto_lightness: 30.0}}" }
+perm_sep = { fg = "{{colors.primary_fixed.default.hex | auto_lightness: 30.0}}" }
+
+# Progress
+progress_label = { bold = true }
+progress_normal = { fg = "{{colors.primary.default.hex}}", bg = "{{colors.surface_bright.default.hex}}" }
+progress_error = { fg = "{{colors.error.default.hex}}", bg = "{{colors.surface_bright.default.hex}}" }
+
+# : ]]]
+
+
+# : Mode [[[
 
 [mode]
 # Mode
@@ -50,24 +83,12 @@ select_alt = { bg = "{{colors.surface_variant.default.hex}}", fg = "{{colors.on_
 unset_main = { bg = "{{colors.tertiary.default.hex}}", fg = "{{colors.on_tertiary.default.hex}}", bold = true }
 unset_alt = { bg = "{{colors.surface_variant.default.hex}}", fg = "{{colors.on_surface_variant.default.hex}}" }
 
-# Progress
-progress_label = { bold = true }
-progress_normal = { fg = "{{colors.primary.default.hex}}", bg = "{{colors.surface_bright.default.hex}}" }
-progress_error = { fg = "{{colors.error.default.hex}}", bg = "{{colors.surface_bright.default.hex}}" }
-
-# Permissions
-permissions_t = { fg = "{{colors.secondary.default.hex | auto_lightness: 30.0}}" }
-permissions_w = { fg = "{{colors.tertiary.default.hex | auto_lightness: 30.0}}" }
-permissions_x = { fg = "{{colors.error.default.hex | auto_lightness: 30.0}}" }
-permissions_r = { fg = "{{colors.tertiary_fixed.default.hex | auto_lightness: 30.0}}" }
-permissions_s = { fg = "{{colors.primary_fixed.default.hex | auto_lightness: 30.0}}" }
-
 # : ]]]
 
 
 # : Select [[[
 
-[select]
+[pick]
 border = { fg = "{{colors.primary.default.hex}}" }
 active = { fg = "{{colors.tertiary.default.hex}}", bold = true }
 inactive = {}
@@ -86,7 +107,7 @@ value = { fg = "{{colors.on_surface.default.hex}}" }
 
 # : Completion [[[
 
-[completion]
+[cmp]
 border = { fg = "{{colors.primary.default.hex}}", bg = "{{colors.on_primary.default.hex}}" }
 
 # : ]]]
@@ -153,13 +174,18 @@ rules = [
   # Documents
   { mime = "application/{pdf,doc,rtf}", fg = "#a6e3a1" },
 
+  # Virtual file system
+  { mime = "vfs/{absent,stale}", fg = "#949cbb" },
+
   # Special files
-  { name = "*", is = "orphan", bg = "{{colors.error_container.default.hex}}" },
-  { name = "*", is = "exec", fg = "{{colors.on_error_container.default.hex}}" },
+  { url = "*", is = "orphan", bg = "{{colors.error_container.default.hex}}" },
+  { url = "*", is = "exec", fg = "{{colors.on_error_container.default.hex}}" },
 
   # Fallback
-  { name = "*", fg = "{{colors.on_surface.default.hex}}" },
-  { name = "*/", fg = "{{colors.surface_tint.default.hex}}" },
+  { url = "*", fg = "{{colors.on_surface.default.hex}}" },
+  { url = "*/", fg = "{{colors.surface_tint.default.hex}}" },
 ]
+
+# : ]]]
 
 # : ]]]
