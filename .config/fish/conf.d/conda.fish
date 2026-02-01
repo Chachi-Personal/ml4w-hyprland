@@ -17,7 +17,7 @@ if not set -q CONDA_SHLVL
 end
 
 function __conda_add_prompt
-    if set -q CONDA_PROMPT_MODIFIER
+    if set -q CONDA_PROMPT_MODIFIER; and test "$CONDA_PROMPT_MODIFIER" != false
         set_color -o green
         echo -n $CONDA_PROMPT_MODIFIER
         set_color normal
