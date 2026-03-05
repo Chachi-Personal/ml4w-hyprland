@@ -47,11 +47,9 @@ inactive = { fg = "{{colors.primary_fixed.default.hex}}", bg = "{{colors.on_prim
 # : Status [[[
 
 [status]
-overall = { bg = "{{colors.on_primary.default.hex}}", fg = "#F4A261" }
+overall = { bg = "{{colors.surface.default.hex}}", fg = "{{colors.on_surface.default.hex}}" }
 sep_left = { open = "🭁", close = "" }
 sep_right = { open = "", close = "🭠" }
-# separator_open = "🭁"
-# separator_close = "🭠"
 
 # Permissions
 perm_type = { fg = "{{colors.secondary.default.hex | auto_lightness: 30.0}}" }

@@ -4,7 +4,9 @@
     "layer": "dock", // dock so it stays below fullscreen apps, alt: top
     "output": [
       "eDP-1",
-      "DP-1"
+      "DP-1",
+      "DP-6",
+      "DP-8"
     ],
     "margin-top": 0,
     "margin-bottom": 0,
@@ -51,7 +53,9 @@
     // General Settings
     "layer": "dock", // dock so it stays below fullscreen apps, alt: top
     "output": [
-      "HDMI-A-1"
+      "HDMI-A-1",
+      "DP-7",
+      "DP-9"
     ],
     "margin-top": 0,
     "margin-bottom": 0,
@@ -78,9 +82,11 @@
     // Modules Right
     "modules-right": [
       "pulseaudio",
+      "bluetooth",
       "battery",
       "tray",
-      "custom/exit",
+      "custom/notification",
+      // "custom/exit",
       "custom/empty",
     ],
   },

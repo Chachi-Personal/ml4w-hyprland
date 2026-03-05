@@ -36,6 +36,6 @@ set --global fish_pager_color_progress brwhite --background=cyan
 set --global fish_pager_color_selected_background -r
 
 set LESS "-SRF"
-# eval "$($HOME/.local/bin/oh-my-posh init fish --config $HOME/.config/ohmyposh/zen.toml)"
+eval "$($HOME/.local/bin/oh-my-posh init fish --config $HOME/.config/ohmyposh/powerlevel10k_lean.omp.json)"
 # eval "$($HOME/.local/bin/oh-my-posh init fish --config spaceship)"
-eval "$($HOME/.local/bin/oh-my-posh init fish --config powerlevel10k_lean)"
+# eval "$($HOME/.local/bin/oh-my-posh init fish --config powerlevel10k_lean)"

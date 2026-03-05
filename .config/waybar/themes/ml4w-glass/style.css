@@ -140,11 +140,19 @@ label.module:hover {
 #workspaces button.urgent {
   background-color: #f53c3c;
   color: @textcolor3;
+  border-radius: 8px;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    background-color: @background;
+    color: @on_surface;
+  }
 }
 
 /* -----------------------------------------------------
@@ -384,17 +392,26 @@ window#waybar.empty #window {
 
 #battery.charging,
 #battery.plugged {
-}
-
-@keyframes blink {
-  to {
-    background-color: @background;
-    color: @on_surface;
-  }
+  background: none;
 }
 
 #battery.critical:not(.charging) {
+  background-color: @error;
 }
+
+#battery.warning:not(.charging) {
+  background-color: @error;
+}
+
+/* @keyframes blink { */
+/*   from, */
+/*   to { */
+/*     opacity: 1; */
+/*   } */
+/*   50% { */
+/*     opacity: 0; */
+/*   } */
+/* } */
 
 /* -----------------------------------------------------
  * Tray

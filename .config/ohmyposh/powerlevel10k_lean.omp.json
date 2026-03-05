@@ -21,7 +21,14 @@
         {
           "foreground": "#77E4F7",
           "options": {
-            "style": "full"
+            "style": "letter",
+            "max_depth": 6,
+            "mixed_threshold": 8,
+            "mapped_locations": {
+              "~/obsidian-vault": " ",
+              "~/obsidian-vault/uni/": "󰑴 ",
+              "~/.config": " "
+            }
           },
           "style": "plain",
           "template": "{{ .Path }} ",

@@ -97,6 +97,7 @@ alias lg "lazygit"
 alias sail "[ -f sail ] && bash sail || bash vendor/bin/sail"
 alias r "R_AUTO_START=true nvim"
 alias tm "tmuxinator"
+alias yarnstart="yarn start && echo -e '\033c'"
 
 # -----------------------------------------------------
 # Others

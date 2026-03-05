@@ -27,6 +27,21 @@ return {
             and vim.bo[buf].buftype ~= "terminal"
         end,
       },
+      ---@type snacks.image.Config
+      image = {
+        enabled = true,
+        math = {
+          enabled = true,
+          typst = {
+            tpl = [[
+        #set page(width: auto, height: auto, margin: (x: 2pt, y: 2pt))
+        #show math.equation.where(block: false): set text(top-edge: "bounds", bottom-edge: "bounds")
+        #set text(size: 12pt, fill: rgb("${color}"))
+        ${header}
+        ${content}]],
+          },
+        },
+      },
     },
     keys = {
       { "<leader><space>", function() require("snacks").picker.smart() end, desc = "Smart Find Files" },

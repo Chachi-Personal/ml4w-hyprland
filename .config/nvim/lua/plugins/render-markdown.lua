@@ -4,6 +4,21 @@ return {
   ft = function()
     local plugin = require("lazy.core.config").spec.plugins["render-markdown.nvim"]
     local opts = require("lazy.core.plugin").values(plugin, "opts", false)
+
+    return opts.file_types or { "markdown" }
+  end,
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = function(_, opts)
+        if opts.ensure_installed ~= "all" then
+          opts.ensure_installed =
+            require("astrocore").list_insert_unique(opts.ensure_installed, { "html", "markdown", "markdown_inline" })
+        end
+      end,
+    },
+  },
+  callback = function(_, opts)
     vim.api.nvim_set_hl(0, "ObsidianTodo", { bold = true, fg = "#f78c6c" })
     vim.api.nvim_set_hl(0, "ObsidianDone", { bold = true, fg = "#89ddff" })
     vim.api.nvim_set_hl(0, "ObsidianRightArrow", { bold = true, fg = "#f78c6c" })
@@ -23,20 +38,7 @@ return {
     vim.api.nvim_set_hl(0, "ObsidianCorollary", { fg = "#8E24AA" }) -- "#8E44AD"
     vim.api.nvim_set_hl(0, "ObsidianRemark", { fg = "#FF9800" }) -- "#FFA500"
     vim.api.nvim_set_hl(0, "ObsidianAlgorithm", { fg = "#FFEB3B" }) -- "#FFD600"
-
-    return opts.file_types or { "markdown" }
   end,
-  dependencies = {
-    {
-      "nvim-treesitter/nvim-treesitter",
-      opts = function(_, opts)
-        if opts.ensure_installed ~= "all" then
-          opts.ensure_installed =
-            require("astrocore").list_insert_unique(opts.ensure_installed, { "html", "markdown", "markdown_inline" })
-        end
-      end,
-    },
-  },
   opts = {
     completions = { blink = { enabled = false } },
     heading = {
