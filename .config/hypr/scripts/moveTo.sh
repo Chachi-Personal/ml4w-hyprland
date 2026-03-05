@@ -42,8 +42,6 @@ done
 log_message "Finished moving windows"
 
 # Switch to the target workspace
-if ["$target_workspace" != "$current_workspace"]; then
-    hyprctl dispatch workspace "$target_workspace"
-fi
+hyprctl dispatch workspace "$target_workspace"
 
 log_message "Switched to workspace $target_workspace"

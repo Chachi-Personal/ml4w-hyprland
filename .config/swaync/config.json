@@ -4,27 +4,28 @@
   "positionY": "top",
   "layer": "overlay",
   "cssPriority": "user",
-  "control-center-layer": "top",
+
   "control-center-width": 360,
   "control-center-height": 700,
-  "control-center-margin-top": 13,
-  "control-center-margin-bottom": 0,
-  "control-center-margin-right": 14,
+  "control-center-margin-top": 11,
+  "control-center-margin-right": 3,
   "control-center-margin-left": 0,
-  "notification-2fa-action": true,
+
   "notification-window-width": 360,
   "notification-icon-size": 48,
   "notification-body-image-height": 100,
-  "notification-body-image-width": 400,
+  "notification-body-image-width": 200,
+
   "timeout": 4,
   "timeout-low": 2,
   "timeout-critical": 6,
+
   "fit-to-screen": false,
   "keyboard-shortcuts": true,
   "image-visibility": "when-available",
   "transition-time": 200,
   "hide-on-clear": true,
-  "hide-on-action": false,
+  "hide-on-action": true,
   "script-fail-notify": true,
   "scripts": {},
   "notification-visibility": {
@@ -37,9 +38,9 @@
   "widgets": [
     "dnd",
     "buttons-grid",
-    "mpris",
-    "volume",
     "backlight",
+    "volume",
+    "mpris",
     "title",
     "notifications"
   ],
@@ -57,18 +58,7 @@
       "image-radius": 0
     },
     "backlight": {
-      "label": "󰃟",
-      "device": "acpi_video2",
-      "subsystem": "backlight"
-    },
-    "slider": {
-      "label": "󰛳",
-      "type": "slider",
-      "format": "{value}%",
-      "min": 0,
-      "max": 100,
-      "command": "ddcutil setvcp 10 {value} --display 1 --quiet",
-      "update-command": "ddcutil getvcp 10 --display 1 --terse 2>/dev/null | cut -d' ' -f4 | sed 's/[.].*//'"
+      "label": "󰃟"
     },
     "volume": {
       "label": ""

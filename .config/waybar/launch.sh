@@ -18,15 +18,15 @@ flock -n 200 || exit 0
 # Quit all running waybar instances
 # -----------------------------------------------------
 
-# killall waybar || true
-# pkill waybar || true
-# sleep 0.5
+killall waybar || true
+pkill waybar || true
+sleep 0.5
 
 # -----------------------------------------------------
 # Default theme: /THEMEFOLDER;/VARIATION
 # -----------------------------------------------------
 
-default_theme="/ml4w-modern;/ml4w-modern/default"
+default_theme="/ml4w-glass-center;/ml4w-glass-center/default"
 
 # -----------------------------------------------------
 # Remove incompatible themes
@@ -88,7 +88,7 @@ fi
 # Loading the configuration
 # -----------------------------------------------------
 
-config_file="config.jsonc"
+config_file="config"
 style_file="style.css"
 
 # Standard files can be overwritten with an existing config-custom or style-custom.css
@@ -101,14 +101,9 @@ fi
 
 # Check if waybar-disabled file exists
 if [ ! -f $HOME/.config/ml4w/settings/waybar-disabled ]; then
-    if pgrep -x waybar > /dev/null; then
-        echo ":: Reloading Waybar with new theme"
-        killall -SIGUSR2 waybar
-    else
-        HYPRLAND_SIGNATURE=$(hyprctl instances -j | jq -r '.[0].instance')
-        HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_SIGNATURE" waybar -c ~/.config/waybar/themes${arrThemes[0]}/$config_file -s ~/.config/waybar/themes${arrThemes[1]}/$style_file &
-        # env GTK_DEBUG=interactive waybar -c ~/.config/waybar/themes${arrThemes[0]}/$config_file -s ~/.config/waybar/themes${arrThemes[1]}/$style_file &
-    fi
+    HYPRLAND_SIGNATURE=$(hyprctl instances -j | jq -r '.[0].instance')
+    HYPRLAND_INSTANCE_SIGNATURE="$HYPRLAND_SIGNATURE" waybar -c ~/.config/waybar/themes${arrThemes[0]}/$config_file -s ~/.config/waybar/themes${arrThemes[1]}/$style_file &
+    # env GTK_DEBUG=interactive waybar -c ~/.config/waybar/themes${arrThemes[0]}/$config_file -s ~/.config/waybar/themes${arrThemes[1]}/$style_file &
 else
     echo ":: Waybar disabled"
 fi

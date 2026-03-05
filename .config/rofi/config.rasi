@@ -42,9 +42,6 @@ configuration {
 /* ---- Load border radius ---- */
 @import "~/.config/ml4w/settings/rofi-border-radius.rasi"
 
-/* ---- Load custom config ---- */
-@import "~/.config/rofi/config-custom.rasi"
-
 // Main //
 window {
     height:                      35em;

@@ -25,10 +25,8 @@ case "$1" in
     toggle)
         if pgrep -x "$SERVICE" >/dev/null ; then
             killall "$SERVICE"
-            notify-send "HyprIdle deactivated"
         else
             "$SERVICE" &
-            notify-send "HyprIdle activated"
         fi
         # Give it a moment to start/stop before checking again
         sleep 0.2

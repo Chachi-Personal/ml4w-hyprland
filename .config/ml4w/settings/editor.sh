@@ -1,1 +1,1 @@
-nvim-xdg-wrapper.sh
+gnome-text-editor

@@ -1,2 +1,1 @@
-# qutebrowser
-brave
+firefox

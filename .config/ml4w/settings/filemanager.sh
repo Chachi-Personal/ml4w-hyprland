@@ -1,1 +1,1 @@
-kitty -e yazi
+nautilus --new-window
