@@ -18,20 +18,21 @@ foreground_templates = [
 [[blocks]]
 type = 'prompt'
 alignment = 'left'
-newline = false
+newline = true
 
 [[blocks.segments]]
-template = '{{ .Path }} '
+template = '{{ .Path }}'
 foreground = 'blue'
 background = 'transparent'
 type = 'path'
 style = 'plain'
 
 [blocks.segments.properties]
+cache_duration = 'none'
 style = 'full'
 
 [[blocks.segments]]
-template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }} '
+template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
 foreground = 'p:grey'
 background = 'transparent'
 type = 'git'
@@ -39,17 +40,9 @@ style = 'plain'
 
 [blocks.segments.properties]
 branch_icon = ''
+cache_duration = 'none'
+commit_icon = '@'
 fetch_status = true
-
-[[blocks.segments]]
-template = '❯'
-background = 'transparent'
-type = 'text'
-style = 'plain'
-foreground_templates = [
-  '{{if gt .Code 0}}red{{end}}',
-  '{{if eq .Code 0}}magenta{{end}}',
-]
 
 [[blocks]]
 type = 'rprompt'
@@ -63,4 +56,23 @@ type = 'executiontime'
 style = 'plain'
 
 [blocks.segments.properties]
+cache_duration = 'none'
 threshold = 5000
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+template = '❯'
+background = 'transparent'
+type = 'text'
+style = 'plain'
+foreground_templates = [
+  '{{if gt .Code 0}}red{{end}}',
+  '{{if eq .Code 0}}magenta{{end}}',
+]
+
+[blocks.segments.properties]
+cache_duration = 'none'

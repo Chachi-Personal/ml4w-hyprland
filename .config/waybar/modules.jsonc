@@ -30,7 +30,10 @@
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
-    "ignore-list": ["Alacritty", "kitty"],
+    "ignore-list": [
+      "Alacritty",
+      "kitty"
+    ],
     "app_ids-mapping": {
       "firefoxdeveloperedition": "firefox-developer-edition",
     },
@@ -70,7 +73,7 @@
   },
   // Now Playing
   "custom/nowplaying": {
-    "exec": "~/.config/ml4w/scripts/now-playing.sh",
+    "exec": "~/.config/ml4w/scripts/ml4w-now-playing",
     "format": "  {text}",
     "return-type": "json",
     "interval": 1,
@@ -96,7 +99,7 @@
     "format": "  {}",
     "escape": true,
     "return-type": "json",
-    "exec": "~/.config/ml4w/scripts/updates.sh",
+    "exec": "~/.config/ml4w/scripts/ml4w-check-system-updates",
     "interval": 1800,
     "signal": 1,
     "hide-empty-text": true,
@@ -177,14 +180,14 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true,
   },
-  // Hyprshade
+  // Hyprsunset
   "custom/hyprshade": {
     "format": "",
     "tooltip-format": "Toggle Screen Shader",
-    "on-click": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh",
-    "on-click-right": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh rofi",
+    "on-click": "sleep 0.5; ~/.config/hypr/scripts/ml4w-toggle-hyprsunset",
     // "on-scroll-up": "true",
     // "on-scroll-down": "true",
+    // "on-click-right": "sleep 0.5; ~/.config/hypr/scripts/hyprshade.sh rofi",
   },
   // Hypridle inhibitor
   "custom/hypridle": {
@@ -263,7 +266,12 @@
       "children-class": "not-memory",
       "transition-left-to-right": false,
     },
-    "modules": ["custom/system", "disk", "cpu", "memory"],
+    "modules": [
+      "custom/system",
+      "disk",
+      "cpu",
+      "memory"
+    ],
   },
   // Group Tools
   "group/tools": {
@@ -284,7 +292,10 @@
   // Group Links
   "group/links": {
     "orientation": "horizontal",
-    "modules": ["custom/chatgpt", "custom/empty"],
+    "modules": [
+      "custom/chatgpt",
+      "custom/empty"
+    ],
   },
   // Group Settings
   "group/settings": {
@@ -294,7 +305,11 @@
       "children-class": "not-memory",
       "transition-left-to-right": true,
     },
-    "modules": ["custom/settings", "custom/waybarthemes", "custom/wallpaper"],
+    "modules": [
+      "custom/settings",
+      "custom/waybarthemes",
+      "custom/wallpaper"
+    ],
   },
   // Network
   "network": {
@@ -324,7 +339,13 @@
     "format-alt": "{icon}  {time}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
-    "format-icons": [" ", " ", " ", " ", " "],
+    "format-icons": [
+      " ",
+      " ",
+      " ",
+      " ",
+      " "
+    ],
   },
   // Power Profiles Daemon
   "power-profiles-daemon": {
@@ -356,7 +377,11 @@
       "phone": " ",
       "portable": " ",
       "car": " ",
-      "default": ["", "", ""],
+      "default": [
+        "",
+        "",
+        ""
+      ],
     },
     "on-click": "pavucontrol",
   },

@@ -8,6 +8,10 @@
 
 SERVICE="hypridle"
 
+source "$HOME/.config/ml4w/scripts/ml4w-notification-handler"
+APP_NAME="Hypridle"
+NOTIFICATION_ICON="sleep"
+
 print_status() {
     if pgrep -x "$SERVICE" >/dev/null ; then
         echo '{"text": "RUNNING", "class": "active", "tooltip": "Screen locking active\nLeft: Deactivate\nRight: Lock Screen"}'
@@ -25,10 +29,14 @@ case "$1" in
     toggle)
         if pgrep -x "$SERVICE" >/dev/null ; then
             killall "$SERVICE"
-            notify-send "HyprIdle deactivated"
+            notify_user --a "${APP_NAME}" \
+                        --s "Hypridle deactivated" \
+                        --m "Screen locking has been deactivated."
         else
             "$SERVICE" &
-            notify-send "HyprIdle activated"
+            notify_user --a "${APP_NAME}" \
+                        --s "Hypridle activated" \
+                        --m "Screen locking has been activated."
         fi
         # Give it a moment to start/stop before checking again
         sleep 0.2
