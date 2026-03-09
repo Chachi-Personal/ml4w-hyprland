@@ -55,14 +55,16 @@ if [[ "$1" == "reboot" ]]; then
 	echo ":: Reboot"
 	terminate_clients
 	sleep 0.5
-	systemctl reboot
+	# systemctl reboot
+	hyprshutdown -t 'Restarting...' --post-cmd 'reboot'
 fi
 
 if [[ "$1" == "shutdown" ]]; then
 	echo ":: Shutdown"
 	terminate_clients
 	sleep 0.5
-	systemctl poweroff
+	# systemctl poweroff
+	hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'
 fi
 
 if [[ "$1" == "suspend" ]]; then
