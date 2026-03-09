@@ -19,20 +19,23 @@
       "alignment": "left",
       "segments": [
         {
+          "type": "path",
+          "style": "powerline",
           "foreground": "#77E4F7",
           "options": {
-            "style": "letter",
+            "style": "fish",
+            "dir_length": 3,
+            "full_length_dirs": 2,
+            "max_width": 40,
             "max_depth": 6,
-            "mixed_threshold": 8,
+            "mixed_threshold": 3,
             "mapped_locations": {
               "~/obsidian-vault": " ",
               "~/obsidian-vault/uni/": "󰑴 ",
               "~/.config": " "
             }
           },
-          "style": "plain",
-          "template": "{{ .Path }} ",
-          "type": "path"
+          "template": "{{ .Path }} "
         },
         {
           "foreground": "#FFE700",
