@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-SERVICE="NetworkManager"
-NEWT_COLORS_VALS='root=#000000,#000000;window=#000000,#000000;border=#FFFFFF,#000000;listbox=#FFFFFF,#000000;label=#0000FF,#000000;checkbox=#FF0000,#000000;title=#00FF00,#000000;button=#FFFFFF,red;actsellistbox=#FFFFFF,red;actlistbox=#FFFFFF,#2a2a2a;compactbutton=#FFFFFF,#2a2a2a;actcheckbox=#FFFFFF,#0000FF;entry=#949494,#000000;textbox=#0000FF,#000000'
+source "$HOME/.config/nmtui/colors.sh"
 
+SERVICE="NetworkManager"
 if systemctl is-active --quiet "$SERVICE"; then
     echo "✅ $SERVICE is already running."
     NEWT_COLORS="$NEWT_COLORS_VALS" nmtui

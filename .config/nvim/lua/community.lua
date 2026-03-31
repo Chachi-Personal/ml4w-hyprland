@@ -62,7 +62,8 @@ return {
   -- { import = "astrocommunity.completion.copilot-lua" },
   -- { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.completion.copilot-lua-cmp" },
-  { import = "astrocommunity.completion.avante-nvim" },
+  { import = "astrocommunity.ai.opencode-nvim" },
+  -- { import = "astrocommunity.completion.avante-nvim" },
 
   -- Comment
   -- { import = "astrocommunity.comment.ts-comments-nvim" },
