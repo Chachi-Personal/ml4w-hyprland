@@ -5,7 +5,6 @@
 # -----------------------------------------------------
 # Fastfetch
 # -----------------------------------------------------
-if status is-interactive
-  # Commands to run in interactive sessions can go here
-  fastfetch
+if status is-interactive; and not set -q TMUX
+    fastfetch
 end
