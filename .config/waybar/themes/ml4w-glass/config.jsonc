@@ -22,7 +22,7 @@
     "modules-left": [
       "custom/appmenu",
       "hyprland/workspaces",
-      "wlr/taskbar",
+      // "wlr/taskbar",
       //"group/quicklinks",
       // "custom/nowplaying",
       "custom/empty",
@@ -51,7 +51,7 @@
   },
   {
     // General Settings
-    "layer": "dock", // dock so it stays below fullscreen apps, alt: top
+    "layer": "top", // dock so it stays below fullscreen apps, alt: top
     "output": [
       "HDMI-A-1",
       "DP-7",
@@ -71,7 +71,7 @@
     "modules-left": [
       "custom/appmenu",
       "hyprland/workspaces",
-      "wlr/taskbar",
+      // "wlr/taskbar",
       "custom/empty",
     ],
     // Modules Center
