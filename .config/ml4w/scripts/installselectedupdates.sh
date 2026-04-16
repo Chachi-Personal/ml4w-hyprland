@@ -47,12 +47,19 @@ figlet -f smslant "Updates"
 echo
 primarycolor=$(cat ~/.config/ml4w/colors/primary)
 onsurfacecolor=$(cat ~/.config/ml4w/colors/onsurface)
-onprimarycolor=$(cat ~/.config/ml4w/colors/onprimary)
+
+aur_packages=$(paru -Qumq)
+pacman_packages=$(checkupdates  | awk '{print $1}')
+
+echo ":: Select aur packages to update:"
+aur_packages_selected=$(gum choose $aur_packages --no-limit)
+echo ":: Select pacman packages to update:"
+pacman_packages_selected=$(gum choose $pacman_packages --no-limit)
+
 if gum confirm \
     --selected.background=$primarycolor \
-    --selected.foreground=$onprimarycolor \
     --prompt.foreground=$onsurfacecolor \
-    "DO YOU WANT TO START THE UPDATE NOW?"; then
+    "DO YOU WANT TO START UPDATING THE FOLLOWING SELECTED PACKAGES?"; then
     echo
     echo ":: Update started..."
 elif [ $? -eq 130 ]; then
@@ -81,7 +88,7 @@ if [[ $(_checkCommandExists "pacman") == 0 ]]; then
     if [[ $yay_installed == "true" ]] && [[ $paru_installed == "false" ]]; then
         yay
     elif [[ $yay_installed == "false" ]] && [[ $paru_installed == "true" ]]; then
-        paru -Syu --noconfirm
+        paru -S $aur_packages_selected $pacman_packages_selected --noconfirm
     else
         yay
     fi
