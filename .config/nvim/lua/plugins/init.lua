@@ -1,0 +1,6 @@
+require("plugins.ui")
+require("plugins.snacks")
+require("plugins.editor")
+require("plugins.git")
+require("plugins.gitsigns")
+require("plugins.tools")
