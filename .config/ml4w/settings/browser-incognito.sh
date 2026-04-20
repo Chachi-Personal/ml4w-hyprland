@@ -1,1 +1,1 @@
-brave --incognito
+helium-browser --incognito
