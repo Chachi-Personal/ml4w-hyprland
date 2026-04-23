@@ -3,6 +3,8 @@ local au = vim.api.nvim_create_autocmd
 local aug = vim.api.nvim_create_augroup
 local map = vim.keymap.set
 
+local lazy_packages = require("plugins.lazy_packages")
+
 -- Todo comments — on file open
 au({ "BufReadPre", "BufNewFile" }, {
 	group = aug("LazyLoad_Todo", { clear = true }),
@@ -17,6 +19,12 @@ au({ "BufReadPre", "BufNewFile" }, {
 defer(function()
 	vim.pack.add({ "https://github.com/folke/which-key.nvim" })
 	require("which-key").setup({})
+	map({ "n" }, "<leader>?", function()
+		require("which-key").show({ gloabl = false })
+	end, { desc = "Buffer Local Keymaps (which-key)" })
+	require("which-key").add({
+		{ "<leader>g", group = "GitSigns" },
+	})
 end)
 
 -- Autopair — deferred
@@ -37,8 +45,11 @@ au("CmdUndefined", {
 })
 map({ "n", "v" }, "<C-n>", "<Cmd>Yazi<CR>", { desc = "Yazi (current file)" })
 map({ "n", "v" }, "<leader>-", "<Cmd>Yazi<CR>", { desc = "Yazi (current file)" })
+lazy_packages.register("yazi.nvim")
+lazy_packages.register("plenary.nvim")
 
 -- ─── Toggleterm ───────────────────────────────────────────────────────────────
+lazy_packages.register("toggleterm.nvim")
 au("CmdUndefined", {
 	group = aug("LazyLoad_Toggleterm", { clear = true }),
 	pattern = { "ToggleTerm", "TermExec" },

@@ -1,3 +1,5 @@
+local lazy_packages = require("plugins.lazy_packages")
+lazy_packages.register("hyprland-vim-syntax")
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	-- Hyprland config files don't have a standard filetype; match by filename
 	pattern = { "*/hypr/*.conf", "hyprland.conf", "hyprlock.conf", "hypridle.conf" },

@@ -29,6 +29,7 @@ require("nvim-treesitter")
 		"regex",
 	})
 	:wait() -- wait = install synchronously on first run
+
 -- Highlighting is now native — enable via autocmd
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("TS_Highlight", { clear = true }),
@@ -39,15 +40,26 @@ vim.api.nvim_create_autocmd("FileType", {
 		end -- no parser for this filetype, silently skip
 	end,
 })
+
 -- Indentation via native treesitter
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	group = vim.api.nvim_create_augroup("TS_Indent", { clear = true }),
+-- 	callback = function(ev)
+-- 		local ok = pcall(function()
+-- 			vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+-- 		end)
+-- 	end,
+-- })
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("TS_Indent", { clear = true }),
 	callback = function(ev)
-		local ok = pcall(function()
+		local ok, ts = pcall(require, "nvim-treesitter")
+		if ok and ts.indentexpr then
 			vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-		end)
+		end
 	end,
 })
+
 -- Textobjects (still configured via the plugin)
 require("nvim-treesitter-textobjects").setup({
 	select = {
