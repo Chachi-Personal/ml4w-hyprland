@@ -47,5 +47,14 @@ vim.api.nvim_create_autocmd("FileType", {
 				},
 			})
 		end
+		local ok, luasnip = pcall(require, "luasnip")
+		if ok then
+			luasnip.config.set_config({
+				enable_autosnippets = true,
+				store_selection_keys = "<Tab>",
+			})
+
+			-- require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets/" })
+		end
 	end,
 })

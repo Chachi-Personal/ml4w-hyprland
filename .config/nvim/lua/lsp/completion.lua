@@ -1,15 +1,15 @@
 -- Register build hook for blink.cmp before vim.pack.add()
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(ev)
-		local name = ev.data.spec.name
-		local kind = ev.data.kind
-		if name == "blink.cmp" and (kind == "install" or kind == "update") then
-			vim.notify("blink.cmp: building Rust binary...", vim.log.levels.INFO)
-			vim.system({ "cargo", "build", "--release" }, { cwd = ev.data.path }):wait()
-			vim.notify("blink.cmp: build complete", vim.log.levels.INFO)
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("PackChanged", {
+-- 	callback = function(ev)
+-- 		local name = ev.data.spec.name
+-- 		local kind = ev.data.kind
+-- 		if name == "blink.cmp" and (kind == "install" or kind == "update") then
+-- 			vim.notify("blink.cmp: building Rust binary...", vim.log.levels.INFO)
+-- 			vim.system({ "cargo", "build", "--release" }, { cwd = ev.data.path }):wait()
+-- 			vim.notify("blink.cmp: build complete", vim.log.levels.INFO)
+-- 		end
+-- 	end,
+-- })
 -- Core LSP infrastructure - loaded on first file open
 -- Mason + blink.cmp loaded on first file open (replaces mason-lspconfig bridge)
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
@@ -17,10 +17,12 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	once = true,
 	callback = function()
 		vim.pack.add({
-			"https://github.com/mason-org/mason.nvim",
-			"https://github.com/saghen/blink.cmp",
-			"https://github.com/ray-x/lsp_signature.nvim",
-			"https://github.com/folke/lazydev.nvim", -- lua_ls devtools
+			{ src = "https://github.com/mason-org/mason.nvim" },
+			{ src = "https://github.com/saghen/blink.lib" },
+			{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+			{ src = "https://github.com/L3MON4D3/LuaSnip", version = vim.version.range("^2") },
+			{ src = "https://github.com/ray-x/lsp_signature.nvim" },
+			{ src = "https://github.com/folke/lazydev.nvim" }, -- lua_ls devtools
 		})
 
 		require("mason").setup({})
@@ -74,7 +76,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 					auto_show_delay_ms = 200,
 				},
 				menu = {
-					border = "rounded",
+					border = nil,
 				},
 				-- Don't re-trigger completions while inside a snippet
 				trigger = {
@@ -82,6 +84,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 				},
 			},
 			appearance = { use_nvim_cmp_as_default = false },
+			snippets = { preset = "luasnip" },
 			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 		})
 	end,
