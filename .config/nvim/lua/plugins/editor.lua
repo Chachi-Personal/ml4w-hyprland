@@ -97,7 +97,54 @@ au({ "BufReadPre", "BufNewFile" }, {
 	once = true,
 	callback = function()
 		vim.pack.add({ "https://github.com/windwp/nvim-autopairs" })
-		require("nvim-autopairs").setup({})
+		local npairs = require("nvim-autopairs")
+		local Rule = require("nvim-autopairs.rule")
+		local cond = require("nvim-autopairs.conds")
+
+		npairs.setup({ map_cr = true })
+
+		npairs.add_rules({
+			Rule("$", "$", { "typst", "markdown" }),
+		})
+
+		npairs.add_rules({
+			Rule(" ", " ", "typst"):with_pair(function(opts)
+				local pair = opts.line:sub(opts.col - 1, opts.col)
+				return pair == "$$"
+			end),
+			Rule("$ ", " $", "typst")
+				:with_pair(cond.none())
+				:with_move(function(opts)
+					return opts.char == " "
+				end)
+				:with_del(function(opts)
+					local col = vim.api.nvim_win_get_cursor(0)[2]
+					local context = opts.line:sub(col - 1, col + 2)
+					return context == "$  $"
+				end)
+				:use_key(" "),
+		})
+
+		local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
+		for _, bracket in ipairs(brackets) do
+			npairs.add_rules({
+				Rule(" ", " ", "-markdown"):with_pair(function(opts)
+					local pair = opts.line:sub(opts.col - 1, opts.col)
+					return vim.tbl_contains({ bracket[1] .. bracket[2] }, pair)
+				end),
+				Rule(bracket[1] .. " ", " " .. bracket[2])
+					:with_pair(cond.none())
+					:with_move(function(opts)
+						return opts.char == " "
+					end)
+					:with_del(function(opts)
+						local col = vim.api.nvim_win_get_cursor(0)[2]
+						local context = opts.line:sub(col - 1, col + 2)
+						return vim.tbl_contains({ bracket[1] .. "  " .. bracket[2] }, context)
+					end)
+					:use_key(" "),
+			})
+		end
 	end,
 })
 
