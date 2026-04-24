@@ -21,6 +21,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			{ src = "https://github.com/saghen/blink.lib" },
 			{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
 			{ src = "https://github.com/L3MON4D3/LuaSnip", version = vim.version.range("^2") },
+			{ src = "https://github.com/iurimateus/luasnip-latex-snippets.nvim" },
 			{ src = "https://github.com/ray-x/lsp_signature.nvim" },
 			{ src = "https://github.com/folke/lazydev.nvim" }, -- lua_ls devtools
 		})
@@ -87,6 +88,18 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			snippets = { preset = "luasnip" },
 			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 		})
+		require("luasnip-latex-snippets").setup({
+			use_treesitter = true,
+			allow_on_markdown = true,
+		})
+		require("luasnip").config.setup({
+			enable_autosnippets = true,
+		})
+		require("luasnip.loaders.from_vscode").lazy_load({
+			paths = { vim.fn.stdpath("config") .. "/snippets" },
+		})
+		require("luasnip.loaders.from_snipmate").lazy_load()
+		require("luasnip.loaders.from_lua").lazy_load()
 	end,
 })
 
