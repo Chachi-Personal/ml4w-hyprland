@@ -167,3 +167,23 @@ end, { desc = "List non active plugins and select to delete" })
 -- 		vim.defer_fn(check_and_update, 1500)
 -- 	end,
 -- })
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("TypstPdf", { clear = true }),
+	pattern = "typst",
+	callback = function(ev)
+		local function open_pdf()
+			local bufname = vim.api.nvim_buf_get_name(ev.buf)
+			local root = vim.fs.root(ev.buf, { ".git" }) or vim.fn.fnamemodify(bufname, ":p:h")
+			local stem = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(ev.buf), ":t:r")
+			local pdf = root .. "/build/" .. stem .. ".pdf"
+			if vim.fn.filereadable(pdf) == 0 then
+				vim.notify("PDF not found: " .. pdf, vim.log.levels.WARN, { title = "Typst" })
+				return
+			end
+			vim.fn.jobstart({ "xdg-open", pdf }, { detach = true })
+		end
+		vim.api.nvim_buf_create_user_command(ev.buf, "TypstOpenPdf", open_pdf, { desc = "Open compiled tpst PDF" })
+		vim.keymap.set("n", "<F4>", open_pdf, { buffer = ev.buf, silent = true, desc = "Open typst PDF" })
+	end,
+})
