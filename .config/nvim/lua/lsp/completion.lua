@@ -98,6 +98,13 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 		require("luasnip.loaders.from_vscode").lazy_load({
 			paths = { vim.fn.stdpath("config") .. "/snippets" },
 		})
+		local ft = vim.bo.filetype
+		if ft ~= "" then
+			require("luasnip.loaders.from_vscode").load_standalone({
+				path = vim.fn.stdpath("config") .. "/snippets/" .. ft .. ".json",
+				lazy = false,
+			})
+		end
 		require("luasnip.loaders.from_snipmate").lazy_load()
 		require("luasnip.loaders.from_lua").lazy_load()
 	end,
