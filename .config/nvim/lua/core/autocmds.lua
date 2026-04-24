@@ -185,5 +185,17 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 		vim.api.nvim_buf_create_user_command(ev.buf, "TypstOpenPdf", open_pdf, { desc = "Open compiled tpst PDF" })
 		vim.keymap.set("n", "<F4>", open_pdf, { buffer = ev.buf, silent = true, desc = "Open typst PDF" })
+
+		vim.api.nvim_create_user_command("ToggleTypstMath", function()
+			local cfg = Snacks.image.config
+			cfg.math.enabled = not cfg.math.enabled
+
+			vim.cmd("edit")
+			vim.notify(
+				"Typst math rendering: " .. (cfg.math.enabled and "on" or "off"),
+				vim.log.levels.INFO,
+				{ title = "Typst" }
+			)
+		end, { desc = "Toggle Typst Inline Math Rendering" })
 	end,
 })
