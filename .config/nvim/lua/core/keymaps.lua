@@ -148,3 +148,10 @@ map("t", "<C-H>", "<Cmd>wincmd h<CR>", { desc = "Terminal left" })
 map("t", "<C-J>", "<Cmd>wincmd j<CR>", { desc = "Terminal down" })
 map("t", "<C-K>", "<Cmd>wincmd k<CR>", { desc = "Terminal up" })
 map("t", "<C-L>", "<Cmd>wincmd l<CR>", { desc = "Terminal right" })
+
+-- Yank as text/html
+-- In normal/visual mode: <leader>ch = "copy as html-mime for Perplexity"
+map({ "n", "v" }, "<leader>y", function()
+	local text = vim.fn.getreg("+")
+	vim.fn.system({ "wl-copy", "--type", "text/html" }, text)
+end, { desc = "Copy clipboard as text/html MIME" })

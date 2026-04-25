@@ -135,14 +135,14 @@ au({ "BufReadPre", "BufNewFile" }, {
 				Rule(bracket[1] .. " ", " " .. bracket[2])
 					:with_pair(cond.none())
 					:with_move(function(opts)
-						return opts.char == " "
+						return opts.char == bracket[2]
 					end)
 					:with_del(function(opts)
 						local col = vim.api.nvim_win_get_cursor(0)[2]
 						local context = opts.line:sub(col - 1, col + 2)
 						return vim.tbl_contains({ bracket[1] .. "  " .. bracket[2] }, context)
 					end)
-					:use_key(" "),
+					:use_key(bracket[2]),
 			})
 		end
 	end,
