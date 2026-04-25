@@ -27,9 +27,6 @@ defer(function()
 	})
 end)
 
--- Autopair — deferred
--- defer(function()
-
 -- Yazi — on command (CmdUndefined lazy load)
 au("CmdUndefined", {
 	group = aug("LazyLoad_Yazi", { clear = true }),
