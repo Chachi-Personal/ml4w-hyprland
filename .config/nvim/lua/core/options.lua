@@ -36,6 +36,7 @@ opt.updatetime = 100
 opt.colorcolumn = "0"
 opt.clipboard:append("unnamedplus")
 opt.mouse = "a"
+opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
 vim.o.cmdheight = 0
 
 -- Native autocomplete (new in 0.12, replaces nvim-cmp for basic use)

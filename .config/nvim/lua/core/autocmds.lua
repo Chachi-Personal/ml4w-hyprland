@@ -20,7 +20,7 @@ autocmd("BufWritePre", {
 })
 
 -- Format on save via LSP
-vim.api.nvim_create_autocmd("LspAttach", {
+autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = true }),
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
 	pattern = {
 		"help",
 		"qf", -- quickfix & location list
@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("QuitPre", {
+autocmd("QuitPre", {
 	callback = function()
 		local current_win = vim.api.nvim_get_current_win()
 
@@ -224,5 +224,25 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { buffer = ev.buf, desc = "Italic" })
 
 		Snacks.image.config.enabled = false
+
+		vim.opt_local.spell = true
+		vim.opt_local.spelllang = { "en" }
+	end,
+})
+
+autocmd("FileType", {
+	group = augroup("MarkdownSpell", { clear = true }),
+	pattern = { "markdown" },
+	callback = function()
+		vim.opt_local.spell = true
+		vim.opt_local.spelllang = { "en" }
+	end,
+})
+
+autocmd("BufWritePost", {
+	group = augroup("SpellRecompile", { clear = true }),
+	pattern = "*.add",
+	callback = function()
+		vim.cmd("silent! mkspell! " .. vim.fn.expand("<afile>"))
 	end,
 })

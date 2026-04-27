@@ -156,3 +156,10 @@ map({ "n", "v" }, "<leader>y", function()
 	local text = vim.fn.getreg("+")
 	vim.fn.system({ "wl-copy", "--type", "text/html" }, text)
 end, { desc = "Copy clipboard as text/html MIME" })
+
+-- ─── Spell ────────────────────────────────────────────────────────────────────
+map("n", "<leader>sa", "zg", { desc = "Spell: add word to dictionary" })
+map("n", "<leader>sx", "zw", { desc = "Spell: mark word as bad" })
+map("n", "<leader>s?", "z=", { desc = "Spell: show suggestions" })
+map("n", "]s", "]s", { desc = "Spell: next misspelled word" })
+map("n", "[s", "[s", { desc = "Spell: prev misspelled word" })
