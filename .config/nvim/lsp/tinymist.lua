@@ -6,5 +6,7 @@ return {
 	settings = {
 		exportPdf = "onSave",
 		outputPath = "$root/build/$name",
+		formatterMode = "typstyle",
+		formatterPrintwidth = 80,
 	},
 }
