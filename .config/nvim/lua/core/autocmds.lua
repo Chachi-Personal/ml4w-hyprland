@@ -199,14 +199,28 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { desc = "Toggle Typst Inline Math Rendering" })
 
 		vim.keymap.set("i", "<M-b>", function()
-			vim.api.nvim_put({ "**" }, "c", true, true)
 			local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-			vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+			local line = vim.api.nvim_get_current_line()
+			local next_char = line:sub(col + 1, col + 1)
+
+			if next_char == "*" then
+				vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+			else
+				vim.api.nvim_put({ "**" }, "c", true, true)
+				vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+			end
 		end, { buffer = ev.buf, desc = "Bold" })
 		vim.keymap.set("i", "<M-i>", function()
-			vim.api.nvim_put({ "__" }, "c", true, true)
 			local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-			vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+			local line = vim.api.nvim_get_current_line()
+			local next_char = line:sub(col + 1, col + 1)
+
+			if next_char == "_" then
+				vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+			else
+				vim.api.nvim_put({ "__" }, "c", true, true)
+				vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+			end
 		end, { buffer = ev.buf, desc = "Italic" })
 
 		Snacks.image.config.enabled = false

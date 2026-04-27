@@ -104,7 +104,10 @@ au({ "BufReadPre", "BufNewFile" }, {
 		npairs.setup({ map_cr = true })
 
 		npairs.add_rules({
-			Rule("$", "$", { "typst", "markdown" }),
+			Rule("$", "$", { "typst", "markdown" }):with_move(function(opts)
+				return opts.char == "$"
+			end),
+			Rule("*", "*", { "typst" }),
 		})
 
 		npairs.add_rules({
@@ -115,14 +118,14 @@ au({ "BufReadPre", "BufNewFile" }, {
 			Rule("$ ", " $", "typst")
 				:with_pair(cond.none())
 				:with_move(function(opts)
-					return opts.char == " "
+					return opts.char == "$"
 				end)
 				:with_del(function(opts)
 					local col = vim.api.nvim_win_get_cursor(0)[2]
 					local context = opts.line:sub(col - 1, col + 2)
 					return context == "$  $"
 				end)
-				:use_key(" "),
+				:use_key("$"),
 		})
 
 		local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }

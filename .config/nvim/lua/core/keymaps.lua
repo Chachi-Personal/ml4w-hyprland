@@ -6,6 +6,7 @@ map("n", "<leader>re", "<cmd>:restart<CR>", { desc = "Restart Neovim (:restart)"
 
 map("n", "<C-s>", "<cmd>silent! update! | redraw<CR>", { desc = "Save" })
 map("i", "<C-s>", "<Esc><cmd>silent! update! | redraw<CR>", { desc = "Save" })
+map("v", "<C-s>", "<Esc><cmd>silent! update! | redraw<CR>", { desc = "Save" })
 
 -- Plugin management (vim.pack)
 map("n", "<leader>pu", "<cmd>lua vim.pack.update()<CR>", { silent = true, desc = "Update plugins" })
