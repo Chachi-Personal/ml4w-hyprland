@@ -100,14 +100,18 @@ au({ "BufReadPre", "BufNewFile" }, {
 		local npairs = require("nvim-autopairs")
 		local Rule = require("nvim-autopairs.rule")
 		local cond = require("nvim-autopairs.conds")
+		local ts_conds = require("nvim-autopairs.ts-conds")
 
-		npairs.setup({ map_cr = true })
+		npairs.setup({
+			map_cr = true,
+			check_ts = true,
+		})
 
 		npairs.add_rules({
 			Rule("$", "$", { "typst", "markdown" }):with_move(function(opts)
 				return opts.char == "$"
 			end),
-			Rule("*", "*", { "typst" }),
+			Rule("*", "*", { "typst" }):with_pair(ts_conds.is_not_ts_node({ "math", "math_group", "formula" })),
 		})
 
 		npairs.add_rules({
