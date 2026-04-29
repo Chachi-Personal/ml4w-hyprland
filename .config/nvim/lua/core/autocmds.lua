@@ -239,6 +239,20 @@ autocmd("FileType", {
 	end,
 })
 
+autocmd("FileType", {
+	group = augroup("MarkdownFold", { clear = true }),
+	pattern = { "markdown" },
+	callback = function(ev)
+		vim.schedule(function()
+			vim.wo[vim.api.nvim_get_current_win()].foldmethod = "expr"
+			vim.wo[vim.api.nvim_get_current_win()].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			vim.wo[vim.api.nvim_get_current_win()].foldlevel = 99
+			vim.wo[vim.api.nvim_get_current_win()].foldenable = true
+			vim.wo[vim.api.nvim_get_current_win()].foldtext = ""
+		end)
+	end,
+})
+
 autocmd("BufWritePost", {
 	group = augroup("SpellRecompile", { clear = true }),
 	pattern = "*.add",
