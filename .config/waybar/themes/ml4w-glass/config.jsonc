@@ -6,6 +6,7 @@
       "eDP-1",
       "DP-1",
       "DP-6",
+      "HDMI-A-1",
       "DP-8"
     ],
     "margin-top": 0,
@@ -53,7 +54,6 @@
     // General Settings
     "layer": "top", // dock so it stays below fullscreen apps, alt: top
     "output": [
-      "HDMI-A-1",
       "DP-7",
       "DP-9"
     ],
