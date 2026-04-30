@@ -20,30 +20,30 @@ autocmd("BufWritePre", {
 })
 
 -- Format on save via LSP
-autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = true }),
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if not client then
-			return
-		end
-
-		-- Only attach BufWritePre if the server actually supports formatting
-		-- and doesn't already handle it via willSaveWaitUntil
-		if
-			not client:supports_method("textDocument/willSaveWaitUntil")
-			and client:supports_method("textDocument/formatting")
-		then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("lsp_format_on_save_" .. args.buf, { clear = true }),
-				buffer = args.buf,
-				callback = function()
-					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
-				end,
-			})
-		end
-	end,
-})
+-- autocmd("LspAttach", {
+-- 	group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = true }),
+-- 	callback = function(args)
+-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- 		if not client then
+-- 			return
+-- 		end
+--
+-- 		-- Only attach BufWritePre if the server actually supports formatting
+-- 		-- and doesn't already handle it via willSaveWaitUntil
+-- 		if
+-- 			not client:supports_method("textDocument/willSaveWaitUntil")
+-- 			and client:supports_method("textDocument/formatting")
+-- 		then
+-- 			vim.api.nvim_create_autocmd("BufWritePre", {
+-- 				group = vim.api.nvim_create_augroup("lsp_format_on_save_" .. args.buf, { clear = true }),
+-- 				buffer = args.buf,
+-- 				callback = function()
+-- 					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+-- 				end,
+-- 			})
+-- 		end
+-- 	end,
+-- })
 
 autocmd("FileType", {
 	pattern = {
