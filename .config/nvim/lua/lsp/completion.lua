@@ -128,22 +128,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 				html = { "prettier" },
 				json = { "prettier" },
 			},
-			format_on_save = { timeout_ms = 1000, lsp_fallback = false },
+			format_on_save = { timeout_ms = 1000, lsp_fallback = true },
 		})
-		-- vim.pack.add({
-		-- 	"https://github.com/nvimtools/none-ls.nvim",
-		-- 	"https://github.com/nvimtools/none-ls-extras.nvim",
-		-- 	"https://github.com/nvim-lua/plenary.nvim",
-		-- })
-		-- local null_ls = require("null-ls")
-		-- null_ls.setup({
-		-- 	sources = {
-		-- 		null_ls.builtins.formatting.stylua,
-		-- 		null_ls.builtins.formatting.prettier,
-		-- 		-- null_ls.builtins.code_actions.statix,
-		-- 		-- null_ls.builtins.diagnostics.deadnix,
-		-- 	},
-		-- })
 	end,
 })
 
