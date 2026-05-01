@@ -12,6 +12,7 @@
 -- })
 -- Core LSP infrastructure - loaded on first file open
 -- Mason + blink.cmp loaded on first file open (replaces mason-lspconfig bridge)
+-- Copilot — deferred (was loaded after blink.cmp)
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	group = vim.api.nvim_create_augroup("LSP_Core", { clear = true }),
 	once = true,
@@ -20,6 +21,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			{ src = "https://github.com/mason-org/mason.nvim" },
 			{ src = "https://github.com/saghen/blink.lib" },
 			{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+			{ src = "https://github.com/fang2hou/blink-copilot" },
+			{ src = "https://github.com/zbirenbaum/copilot.lua" },
 			{ src = "https://github.com/L3MON4D3/LuaSnip", version = vim.version.range("^2") },
 			{ src = "https://github.com/iurimateus/luasnip-latex-snippets.nvim" },
 			{ src = "https://github.com/ray-x/lsp_signature.nvim" },
@@ -35,6 +38,10 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 		require("lsp_signature").setup({
 			hint_enable = false,
 			handler_opts = { border = "rounded" },
+		})
+		require("copilot").setup({
+			suggestion = { enabled = false }, -- blink handles UI
+			panel = { enabled = false },
 		})
 		require("blink.cmp").setup({
 			keymap = {
@@ -86,7 +93,17 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			},
 			appearance = { use_nvim_cmp_as_default = false },
 			snippets = { preset = "luasnip" },
-			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer", "copilot" },
+				providers = {
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
+						score_offset = 100,
+						async = true,
+					},
+				},
+			},
 		})
 		require("luasnip-latex-snippets").setup({
 			use_treesitter = true,
@@ -132,12 +149,3 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 		})
 	end,
 })
-
--- Copilot — deferred (was loaded after blink.cmp)
-vim.schedule(function()
-	vim.pack.add({ "https://github.com/zbirenbaum/copilot.lua" })
-	require("copilot").setup({
-		suggestion = { enabled = false }, -- blink handles UI
-		panel = { enabled = false },
-	})
-end)
