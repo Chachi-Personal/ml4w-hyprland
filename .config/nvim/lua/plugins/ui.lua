@@ -113,13 +113,19 @@ local config = {
 			},
 			{
 				"diagnostics",
-				sources = { "nvim_diagnostic" },
+				sources = { "nvim_lsp", "nvim_diagnostic" },
 				symbols = { error = " ", warn = " ", info = " " },
 				diagnostics_color = {
 					color_error = { fg = colors.red },
 					color_warn = { fg = colors.yellow },
 					color_info = { fg = colors.cyan },
 				},
+				always_visible = false,
+				on_click = function()
+					-- vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+					vim.diagnostic.setqflist()
+					vim.cmd("copen")
+				end,
 			},
 			{
 				function()
@@ -143,13 +149,13 @@ local config = {
 		lualine_x = {
 			{ "obsidian_component" },
 			{ "lsp_status" },
+			{ "encoding" },
+			{ "filetype" },
 			{
 				"location",
 				color = { fg = colors.fg_dark },
 				cond = conditions.buffer_not_empty,
 			},
-			{ "encoding" },
-			{ "filetype" },
 		},
 	},
 	inactive_sections = {
@@ -183,7 +189,7 @@ local config = {
 			{ "filename", path = 1 },
 		},
 	},
-	extensions = { "aerial" },
+	-- extensions = { "aerial", "quickfix" },
 }
 
 require("lualine").setup(config)
