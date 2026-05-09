@@ -3,6 +3,9 @@ local map = vim.keymap.set
 vim.pack.add({ "https://github.com/lewis6991/gitsigns.nvim" })
 require("gitsigns").setup({})
 
+require("which-key").add({
+	{ "<leader>g", group = "GitSigns" },
+})
 -- Gitsigns (set in gitsigns.lua on_attach, but global fallbacks here)
 map("n", "<leader>gl", function()
 	require("gitsigns").blame_line()

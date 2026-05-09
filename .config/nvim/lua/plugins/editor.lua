@@ -111,14 +111,25 @@ au({ "BufReadPre", "BufNewFile" }, {
 			Rule("$", "$", { "typst", "markdown" }):with_move(function(opts)
 				return opts.char == "$"
 			end),
-			Rule("*", "*", { "typst" }):with_pair(ts_conds.is_not_ts_node({ "math", "math_group", "formula" })),
+			Rule("*", "*", { "typst" }):with_pair(function()
+				local node = vim.treesitter.get_node({ ignore_injections = false })
+				local blocked = { math = true, math_group = true, formula = true, group = true }
+
+				while node do
+					if blocked[node:type()] then
+						return false
+					end
+					node = node:parent()
+				end
+				return true
+			end),
 		})
 
 		npairs.add_rules({
 			Rule(" ", " ", "typst"):with_pair(function(opts)
 				local pair = opts.line:sub(opts.col - 1, opts.col)
 				return pair == "$$"
-			end),
+			end):with_del(cond.none()),
 			Rule("$ ", " $", "typst")
 				:with_pair(cond.none())
 				:with_move(function(opts)
@@ -138,7 +149,7 @@ au({ "BufReadPre", "BufNewFile" }, {
 				Rule(" ", " ", "-markdown"):with_pair(function(opts)
 					local pair = opts.line:sub(opts.col - 1, opts.col)
 					return vim.tbl_contains({ bracket[1] .. bracket[2] }, pair)
-				end),
+				end):with_del(cond.none()),
 				Rule(bracket[1] .. " ", " " .. bracket[2])
 					:with_pair(cond.none())
 					:with_move(function(opts)

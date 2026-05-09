@@ -15,18 +15,6 @@ au({ "BufReadPre", "BufNewFile" }, {
 	end,
 })
 
--- Which-key — deferred
-defer(function()
-	vim.pack.add({ "https://github.com/folke/which-key.nvim" })
-	require("which-key").setup({})
-	map({ "n" }, "<leader>?", function()
-		require("which-key").show({ gloabl = false })
-	end, { desc = "Buffer Local Keymaps (which-key)" })
-	require("which-key").add({
-		{ "<leader>g", group = "GitSigns" },
-	})
-end)
-
 -- Yazi — on command (CmdUndefined lazy load)
 au("CmdUndefined", {
 	group = aug("LazyLoad_Yazi", { clear = true }),
@@ -47,6 +35,7 @@ lazy_packages.register("plenary.nvim")
 
 -- ─── Toggleterm ───────────────────────────────────────────────────────────────
 lazy_packages.register("toggleterm.nvim")
+require("which-key").add({ { "<leader>t", group = "Terminal" } })
 au("CmdUndefined", {
 	group = aug("LazyLoad_Toggleterm", { clear = true }),
 	pattern = { "ToggleTerm", "TermExec" },

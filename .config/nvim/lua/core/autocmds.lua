@@ -1,5 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
+local command = vim.api.nvim_create_user_command
 
 -- Highlight yanked text
 autocmd("TextYankPost", {
@@ -88,7 +89,7 @@ autocmd("QuitPre", {
 	end,
 })
 
-vim.api.nvim_create_user_command("PackCheck", function()
+command("PackCheck", function()
 	local lazy_packages = require("plugins.lazy_packages")
 	local non_active = vim.iter(vim.pack.get())
 		:filter(function(x)
@@ -168,7 +169,7 @@ end, { desc = "List non active plugins and select to delete" })
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("TypstPdf", { clear = true }),
 	pattern = "typst",
 	callback = function(ev)

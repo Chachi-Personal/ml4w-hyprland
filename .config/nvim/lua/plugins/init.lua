@@ -1,7 +1,9 @@
-require("plugins.ui")
-require("plugins.snacks")
-require("plugins.editor")
-require("plugins.tools")
-require("plugins.gitsigns")
-require("plugins.obsidian")
-require("plugins.ai")
+-- lua/plugins/init.lua
+local plugin_dir = vim.fn.stdpath("config") .. "/lua/plugins"
+
+for _, file in ipairs(vim.fn.readdir(plugin_dir)) do
+	local name = file:match("^(.+)%.lua$")
+	if name and name ~= "init" then
+		require("plugins." .. name)
+	end
+end

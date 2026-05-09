@@ -16,6 +16,11 @@ require("snacks").setup({
 	word = { enabled = true },
 })
 
+require("which-key").add({
+	{ "<leader>f", group = "Find" },
+	{ "<leader>g", group = "Git" },
+	{ "<leader>l", group = "LSP" },
+})
 -- Pickers
 map("n", "<C-p>", function()
 	Snacks.picker.files()
