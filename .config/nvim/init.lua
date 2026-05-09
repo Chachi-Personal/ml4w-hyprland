@@ -1,4 +1,6 @@
 vim.loader.enable()
+
+-- Enable UI 2
 require("vim._core.ui2").enable({
 	enable = true,
 	msg = {
@@ -10,14 +12,18 @@ require("vim._core.ui2").enable({
 	},
 })
 
+-- Set Leader Key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Core Plugins
 require("core.autocmds")
 require("core.keymaps")
 require("core.options")
 
+-- Lsp Plugins
 require("lsp")
 require("lsp.completion")
 
+-- Plugins
 require("plugins")

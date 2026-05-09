@@ -229,7 +229,7 @@ require("bufferline").setup({
 	},
 })
 
--- Noice — deferred (was VeryLazy)
+-- Noice
 defer(function()
 	vim.pack.add({
 		"https://github.com/MunifTanjim/nui.nvim",

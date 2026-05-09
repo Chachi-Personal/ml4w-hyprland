@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			{ src = "https://github.com/zbirenbaum/copilot.lua" },
 			{ src = "https://github.com/L3MON4D3/LuaSnip", version = vim.version.range("^2") },
 			{ src = "https://github.com/iurimateus/luasnip-latex-snippets.nvim" },
-			{ src = "https://github.com/ray-x/lsp_signature.nvim" },
+			-- { src = "https://github.com/ray-x/lsp_signature.nvim" },
 			{ src = "https://github.com/folke/lazydev.nvim" }, -- lua_ls devtools
 		})
 
@@ -35,10 +35,10 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 				{ path = "snacks.nvim", words = { "Snacks" } },
 			},
 		})
-		require("lsp_signature").setup({
-			hint_enable = false,
-			handler_opts = { border = "rounded" },
-		})
+		-- require("lsp_signature").setup({
+		-- 	hint_enable = false,
+		-- 	handler_opts = { border = "rounded" },
+		-- })
 		require("copilot").setup({
 			suggestion = { enabled = false }, -- blink handles UI
 			panel = { enabled = false },
@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 
 				-- Tab: cycle forward through list (text auto-inserts as you go)
 				-- Also jumps to next snippet placeholder AFTER acceptance
-				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<Tab>"] = { "show", "select_next", "snippet_forward", "fallback" },
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 
 				-- Enter: accept selected item (expands snippet if it is one)
@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 					auto_show_delay_ms = 200,
 				},
 				menu = {
-					border = nil,
+					-- border = nil,
 				},
 				-- Don't re-trigger completions while inside a snippet
 				trigger = {
@@ -99,15 +99,14 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 					copilot = {
 						name = "copilot",
 						module = "blink-copilot",
-						score_offset = 100,
+						score_offset = 8,
 						async = true,
 					},
 				},
 			},
-		})
-		require("luasnip-latex-snippets").setup({
-			use_treesitter = true,
-			allow_on_markdown = true,
+			signature = {
+				enabled = true,
+			},
 		})
 		require("luasnip").config.setup({
 			enable_autosnippets = true,

@@ -253,6 +253,17 @@ autocmd("FileType", {
 	end,
 })
 
+autocmd("FileType", {
+	pattern = { "tex", "markdown", "typst" },
+	once = true,
+	callback = function()
+		require("luasnip-latex-snippets").setup({
+			use_treesitter = true,
+			allow_on_markdown = true,
+		})
+	end,
+})
+
 autocmd("BufWritePost", {
 	group = augroup("SpellRecompile", { clear = true }),
 	pattern = "*.add",
