@@ -32,17 +32,18 @@ local mode_colors = {
 	n = colors.blue,
 	i = colors.green,
 	v = colors.purple,
-	[""] = colors.purple, -- Visual block (^V)
+	["\x16"] = colors.purple, -- Visual block (^V)
 	V = colors.purple,
 	c = colors.orange,
 	s = colors.orange,
 	S = colors.orange,
-	[""] = colors.orange, -- Select block
+	["\x13"] = colors.orange, -- Select block
 	R = colors.red,
 	r = colors.red,
 	["!"] = colors.red,
 	t = colors.red,
 }
+
 local config = {
 	options = {
 		-- Disable sections and component separators
