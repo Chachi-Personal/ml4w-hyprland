@@ -25,7 +25,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			{ src = "https://github.com/zbirenbaum/copilot.lua" },
 			{ src = "https://github.com/L3MON4D3/LuaSnip", version = vim.version.range("^2") },
 			{ src = "https://github.com/iurimateus/luasnip-latex-snippets.nvim" },
-			-- { src = "https://github.com/ray-x/lsp_signature.nvim" },
 			{ src = "https://github.com/folke/lazydev.nvim" }, -- lua_ls devtools
 		})
 
@@ -51,7 +50,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 
 				-- Tab: cycle forward through list (text auto-inserts as you go)
 				-- Also jumps to next snippet placeholder AFTER acceptance
-				["<Tab>"] = { "show", "select_next", "snippet_forward", "fallback" },
+				["<Tab>"] = { "snippet_forward", "show", "select_next", "fallback" },
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 
 				-- Enter: accept selected item (expands snippet if it is one)
