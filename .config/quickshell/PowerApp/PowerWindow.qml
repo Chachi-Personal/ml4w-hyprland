@@ -33,39 +33,39 @@ PanelWindow {
     }
 
     // --- HANDLE ESCAPE SHORTCUT ---
-    Shortcut {
-        sequence: "Escape"
-        onActivated: {
-            if (root.isOpen) {
-                root.isOpen = false
-            }
-        }
-    }
-    Shortcut {
-        sequence: "L"
-        enabled: root.isOpen
-        onActivated: { powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"]; powerProcess.running = true; root.isOpen = false }
-    }
-    Shortcut {
-        sequence: "E"
-        enabled: root.isOpen
-        onActivated: { powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exit()"]; powerProcess.running =true; root.isOpen = false }
-    }
-    Shortcut {
-        sequence: "U"
-        enabled: root.isOpen
-        onActivated: { powerProcess.command = ["bash", "-c", "~/.config/hypr/scripts/power.sh suspend"]; powerProcess.running = true; root.isOpen = false }
-    }
-    Shortcut {
-        sequence: "R"
-        enabled: root.isOpen
-        onActivated: { powerProcess.command = ["bash", "-c", "~/.config/hypr/scripts/power.sh reboot"]; powerProcess.running = true; root.isOpen = false }
-    }
-    Shortcut {
-        sequence: "S"
-        enabled: root.isOpen
-        onActivated: { powerProcess.command = ["bash", "-c", "~/.config/hypr/scripts/power.sh shutdown"]; powerProcess.running = true; root.isOpen = false }
-    }
+    // Shortcut {
+    //     sequence: "Escape"
+    //     onActivated: {
+    //         if (root.isOpen) {
+    //             root.isOpen = false
+    //         }
+    //     }
+    // }
+    // Shortcut {
+    //     sequence: "L"
+    //     enabled: root.isOpen
+    //     onActivated: { powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"]; powerProcess.running = true; root.isOpen = false }
+    // }
+    // Shortcut {
+    //     sequence: "E"
+    //     enabled: root.isOpen
+    //     onActivated: { powerProcess.command = ["bash", "-c", "nohup", "$HOME/.config/hypr/scripts/power.sh","exit","&"]; powerProcess.running =true; root.isOpen = false }
+    // }
+    // Shortcut {
+    //     sequence: "U"
+    //     enabled: root.isOpen
+    //     onActivated: { powerProcess.command = ["bash", "-c", "nohup ~/.config/hypr/scripts/power.sh suspend &"]; powerProcess.running = true; root.isOpen = false }
+    // }
+    // Shortcut {
+    //     sequence: "R"
+    //     enabled: root.isOpen
+    //     onActivated: { powerProcess.command = ["bash", "-c", "nohup ~/.config/hypr/scripts/power.sh reboot &"]; powerProcess.running = true; root.isOpen = false }
+    // }
+    // Shortcut {
+    //     sequence: "S"
+    //     enabled: root.isOpen
+    //     onActivated: { powerProcess.command = ["bash", "-c", "nohup ~/.config/hypr/scripts/power.sh shutdown &"]; powerProcess.running = true; root.isOpen = false }
+    // }
 
     // --- 2. ANIMATION LOGIC (FIXED) ---
     property bool isOpen: false
@@ -112,8 +112,22 @@ PanelWindow {
     // ==========================================
     Item {
         id: panelBg
+        focus: root.isOpen
         implicitWidth: 80
         implicitHeight: buttonLayout.implicitHeight + 40
+
+        Keys.onPressed: (event) => {
+            if (!root.isOpen) return
+            switch (event.key) {
+                case Qt.Key_L: powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"]; powerProcess.running = true; root.isOpen = false; break
+                case Qt.Key_E: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown')"]; powerProcess.running = true; root.isOpen = false; break
+                case Qt.Key_U: powerProcess.command = ["bash", "-c", "$HOME/.config/hypr/scripts/power.sh suspend &"]; powerProcess.running = true; root.isOpen = false; break
+                case Qt.Key_R: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd reboot')"]; powerProcess.running = true; root.isOpen = false; break
+                case Qt.Key_S: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd poweroff')"]; powerProcess.running = true; root.isOpen = false; break
+                case Qt.Key_Escape: root.isOpen = false; break
+            }
+            event.accepted = true
+        }
 
         Rectangle {
             anchors.fill: parent
@@ -167,9 +181,9 @@ PanelWindow {
 
             PowerButton { iconTxt: ""; cmd: "pidof hyprlock || hyprlock" }
             PowerButton { iconTxt: ""; cmd: "systemctl suspend" }
-            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch 'hl.dsp.exit()'" }
-            PowerButton { iconTxt: ""; cmd: "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'" }
-            PowerButton { iconTxt: ""; cmd: "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'" }
+            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown\')\"" }
+            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Rebooting --post-cmd \"reboot\"\')" }
+            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Poweroff --post-cmd \"poweroff\"\')" }
         }
     }
 }
