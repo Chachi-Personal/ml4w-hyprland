@@ -88,7 +88,7 @@ fi
 # Loading the configuration
 # -----------------------------------------------------
 
-config_file="config.jsonc"
+config_file="config.json"
 style_file="style.css"
 
 # Standard files can be overwritten with an existing config-custom or style-custom.css
