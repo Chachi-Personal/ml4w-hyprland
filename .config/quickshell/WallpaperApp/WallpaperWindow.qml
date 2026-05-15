@@ -37,7 +37,7 @@ PanelWindow {
         active: root.isOpen
         onCleared: {
             if (root.isOpen) {
-                root.isOpen = false
+                root.isOpen = false;
             }
         }
     }
@@ -47,7 +47,7 @@ PanelWindow {
         sequence: "Escape"
         onActivated: {
             if (root.isOpen) {
-                root.isOpen = false
+                root.isOpen = false;
             }
         }
     }
@@ -56,7 +56,9 @@ PanelWindow {
     property bool isOpen: false
     visible: isOpen || slideAnim.running
 
-    margins { left: root.currentMargin }
+    margins {
+        left: root.currentMargin
+    }
     property real currentMargin: isOpen ? 20 : -450
 
     Behavior on currentMargin {
@@ -70,9 +72,15 @@ PanelWindow {
     // --- IPC HANDLER ---
     IpcHandler {
         target: "wallpaper"
-        function toggle(): void { root.isOpen = !root.isOpen }
-        function open(): void { root.isOpen = true }
-        function close(): void { root.isOpen = false }
+        function toggle(): void {
+            root.isOpen = !root.isOpen;
+        }
+        function open(): void {
+            root.isOpen = true;
+        }
+        function close(): void {
+            root.isOpen = false;
+        }
     }
 
     // Default fallback folder just in case the file doesn't exist
@@ -81,15 +89,33 @@ PanelWindow {
     ListModel {
         id: wallpaperModel
     }
+    ListModel {
+        id: displayModel
+    }
+    Connections {
+        target: searchInput
+        function onTextChanged() {
+            filterWallpapers();
+        }
+    }
+
+    function filterWallpapers() {
+        displayModel.clear();
+        let query = searchInput.text.trim().toLowerCase();
+        for (let i = 0; i < wallpaperModel.count; i++) {
+            let item = wallpaperModel.get(i);
+            if (query === "" || item.fileName.toLowerCase().includes(query)) {
+                displayModel.append(item);
+            }
+        }
+    }
 
     Process {
-    id: wallpaperScanner
-    // find all jpg/jpeg/png recursively, print full path
-    command: ["find", Quickshell.env("HOME") + "/.config/ml4w/wallpapers",
-              "-type", "f",
-              "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"]
+        id: wallpaperScanner
+        // find all jpg/jpeg/png recursively, print full path
+        command: ["find", Quickshell.env("HOME") + "/.config/ml4w/wallpapers", "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"]
 
-    stdout: StdioCollector {
+        stdout: StdioCollector {
             onStreamFinished: {
                 wallpaperModel.clear();
                 let lines = this.text.trim().split("\n");
@@ -97,9 +123,13 @@ PanelWindow {
                     let path = line.trim();
                     if (path !== "") {
                         let fileName = path.split("/").pop();
-                        wallpaperModel.append({ filePath: path, fileName: fileName });
+                        wallpaperModel.append({
+                            filePath: path,
+                            fileName: fileName
+                        });
                     }
                 }
+                root.filterWallpapers();
             }
         }
     }
@@ -117,12 +147,16 @@ PanelWindow {
                 if (rawPath !== "") {
                     rawPath = rawPath.replace("$HOME", Quickshell.env("HOME"));
                     rawPath = rawPath.replace("~", Quickshell.env("HOME"));
+                    let cleanPath = rawPath.startsWith("file://") ? rawPath.slice(7) : rawPath;
+
+                    wallpaperScanner.command = ["find", cleanPath, "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"];
+                    wallpaperScanner.running = true;
                     // Ensure the path starts with file:// for the FolderListModel
-                    let newPath = rawPath.startsWith("file://") ? rawPath : "file://" + rawPath;
-                    if (root.wallpaperFolder === newPath) {
-                        root.wallpaperFolder = "";
-                    }
-                    root.wallpaperFolder = newPath;
+                    // let newPath = rawPath.startsWith("file://") ? rawPath : "file://" + rawPath;
+                    // if (root.wallpaperFolder === newPath) {
+                    //     root.wallpaperFolder = "";
+                    // }
+                    // root.wallpaperFolder = newPath;
                 }
             }
         }
@@ -146,16 +180,20 @@ PanelWindow {
         }
     }
 
-
     component SettingsWheel: Button {
         implicitWidth: 28
         implicitHeight: 28
         text: ""
         font.family: "monospace"
-        background: Rectangle { color: "transparent" }
+        background: Rectangle {
+            color: "transparent"
+        }
         contentItem: Text {
-            text: parent.text; color: Theme.primary; font.pixelSize: 18;
-            verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
+            text: parent.text
+            color: Theme.primary
+            font.pixelSize: 18
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 
@@ -188,7 +226,7 @@ PanelWindow {
                     placeholderText: "Search image"
                     color: Theme.primary
                     font.pixelSize: 14
-                    padding:8
+                    padding: 8
                     Layout.fillWidth: true
                     horizontalAlignment: TextInput.AlignHCenter
 
@@ -224,24 +262,24 @@ PanelWindow {
                         ML4WMenuItem {
                             text: "Random Wallpaper"
                             onClicked: {
-                                root.isOpen = false
-                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper --random"])
+                                root.isOpen = false;
+                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper --random"]);
                             }
                         }
 
                         ML4WMenuItem {
                             text: "Wallpaper Effects"
                             onClicked: {
-                                root.isOpen = false
-                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper-effects"])
+                                root.isOpen = false;
+                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper-effects"]);
                             }
                         }
 
                         ML4WMenuItem {
                             text: "Clear Wallpaper Cache"
                             onClicked: {
-                                root.isOpen = false
-                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-clear-wallpaper-cache"])
+                                root.isOpen = false;
+                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-clear-wallpaper-cache"]);
                             }
                         }
 
@@ -251,7 +289,6 @@ PanelWindow {
                                 folderLoader.running = true;
                             }
                         }
-
                     }
                 }
             }
@@ -281,22 +318,23 @@ PanelWindow {
                     interactive: true
                 }
 
-                model: FolderListModel {
-                    folder: root.wallpaperFolder
-                    showDirs: false
-                    caseSensitive: false
-                    showFiles: true
-
-                    sortField: FolderListModel.Name
-
-                    nameFilters: {
-                        let s = searchInput.text.trim();
-                        if (s === "") {
-                            return ["*.jpg", "*.jpeg", "*.png"];
-                        }
-                        return ["*" + s + "*.jpg", "*" + s + "*.jpeg", "*" + s + "*.png"];
-                    }
-                }
+                model: displayModel
+                // model: FolderListModel {
+                //     folder: root.wallpaperFolder
+                //     showDirs: false
+                //     caseSensitive: false
+                //     showFiles: true
+                //
+                //     sortField: FolderListModel.Name
+                //
+                //     nameFilters: {
+                //         let s = searchInput.text.trim();
+                //         if (s === "") {
+                //             return ["*.jpg", "*.jpeg", "*.png"];
+                //         }
+                //         return ["*" + s + "*.jpg", "*" + s + "*.jpeg", "*" + s + "*.png"];
+                //     }
+                // }
 
                 delegate: Item {
                     width: grid.cellWidth
