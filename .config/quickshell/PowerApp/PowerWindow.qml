@@ -27,7 +27,7 @@ PanelWindow {
         active: root.isOpen
         onCleared: {
             if (root.isOpen) {
-                root.isOpen = false
+                root.isOpen = false;
             }
         }
     }
@@ -91,15 +91,37 @@ PanelWindow {
 
     IpcHandler {
         target: "power"
-        function toggle(): void { root.isOpen = !root.isOpen }
-        function open(): void { root.isOpen = true }   // <-- Added for Waybar safety
-        function close(): void { root.isOpen = false } // <-- Added for Waybar safety
+        function toggle(): void {
+            root.isOpen = !root.isOpen;
+        }
+        function open(): void {
+            root.isOpen = true;
+        }   // <-- Added for Waybar safety
+        function close(): void {
+            root.isOpen = false;
+        } // <-- Added for Waybar safety
 
         // Action triggers
-    function lock(): void     { powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"]; powerProcess.running = true; root.isOpen = false }
-    function suspend(): void  { powerProcess.command = ["bash", "-c", "systemctl suspend"];  powerProcess.running = true; root.isOpen = false }
-    function reboot(): void   { powerProcess.command = ["bash", "-c", "systemctl reboot"];   powerProcess.running = true; root.isOpen = false }
-    function poweroff(): void { powerProcess.command = ["bash", "-c", "systemctl poweroff"]; powerProcess.running = true; root.isOpen = false }
+        function lock(): void {
+            powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"];
+            powerProcess.running = true;
+            root.isOpen = false;
+        }
+        function suspend(): void {
+            powerProcess.command = ["bash", "-c", "systemctl suspend"];
+            powerProcess.running = true;
+            root.isOpen = false;
+        }
+        function reboot(): void {
+            powerProcess.command = ["bash", "-c", "systemctl reboot"];
+            powerProcess.running = true;
+            root.isOpen = false;
+        }
+        function poweroff(): void {
+            powerProcess.command = ["bash", "-c", "systemctl poweroff"];
+            powerProcess.running = true;
+            root.isOpen = false;
+        }
     }
 
     Process {
@@ -116,17 +138,40 @@ PanelWindow {
         implicitWidth: 80
         implicitHeight: buttonLayout.implicitHeight + 40
 
-        Keys.onPressed: (event) => {
-            if (!root.isOpen) return
+        Keys.onPressed: event => {
+            if (!root.isOpen)
+                return;
             switch (event.key) {
-                case Qt.Key_L: powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"]; powerProcess.running = true; root.isOpen = false; break
-                case Qt.Key_E: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown')"]; powerProcess.running = true; root.isOpen = false; break
-                case Qt.Key_U: powerProcess.command = ["bash", "-c", "$HOME/.config/hypr/scripts/power.sh suspend &"]; powerProcess.running = true; root.isOpen = false; break
-                case Qt.Key_R: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd reboot')"]; powerProcess.running = true; root.isOpen = false; break
-                case Qt.Key_S: powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd poweroff')"]; powerProcess.running = true; root.isOpen = false; break
-                case Qt.Key_Escape: root.isOpen = false; break
+            case Qt.Key_L:
+                powerProcess.command = ["bash", "-c", "pidof hyprlock || hyprlock"];
+                powerProcess.running = true;
+                root.isOpen = false;
+                break;
+            case Qt.Key_E:
+                powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown')"];
+                powerProcess.running = true;
+                root.isOpen = false;
+                break;
+            case Qt.Key_U:
+                powerProcess.command = ["systemctl", "suspend"];
+                powerProcess.running = true;
+                root.isOpen = false;
+                break;
+            case Qt.Key_R:
+                powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd reboot')"];
+                powerProcess.running = true;
+                root.isOpen = false;
+                break;
+            case Qt.Key_S:
+                powerProcess.command = ["hyprctl", "dispatch", "hl.dsp.exec_cmd('hyprshutdown -t Rebooting --post-cmd poweroff')"];
+                powerProcess.running = true;
+                root.isOpen = false;
+                break;
+            case Qt.Key_Escape:
+                root.isOpen = false;
+                break;
             }
-            event.accepted = true
+            event.accepted = true;
         }
 
         Rectangle {
@@ -146,44 +191,59 @@ PanelWindow {
             anchors.centerIn: parent
             spacing: 20
 
-            component PowerButton: Rectangle {
-                id: btn
-                property string iconTxt: ""
-                property string cmd: ""
-
-                implicitWidth: 50
-                implicitHeight: 50
-                radius: 25
-
-                color: mouseArea.containsMouse ? Theme.primary : "transparent"
-                border.color: Theme.primary
-                border.width: 1
-
-                Text {
-                    anchors.centerIn: parent
-                    text: btn.iconTxt
-                    font.family: "monospace"
-                    font.pixelSize: 20
-                    color: mouseArea.containsMouse ? Theme.background : Theme.primary
-                }
-
-                MouseArea {
-                    id: mouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        powerProcess.command = ["bash", "-c", btn.cmd]
-                        powerProcess.running = true
-                        root.isOpen = false // Trigger the slide-out animation!
-                    }
-                }
+            PowerButton {
+                iconTxt: ""
+                cmd: "pidof hyprlock || hyprlock"
             }
+            PowerButton {
+                iconTxt: ""
+                cmd: "systemctl suspend"
+            }
+            PowerButton {
+                iconTxt: ""
+                cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown\')\""
+            }
+            PowerButton {
+                iconTxt: ""
+                cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Rebooting --post-cmd \"reboot\"\')"
+            }
+            PowerButton {
+                iconTxt: ""
+                cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Poweroff --post-cmd \"poweroff\"\')"
+            }
+        }
+    }
 
-            PowerButton { iconTxt: ""; cmd: "pidof hyprlock || hyprlock" }
-            PowerButton { iconTxt: ""; cmd: "systemctl suspend" }
-            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown\')\"" }
-            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Rebooting --post-cmd \"reboot\"\')" }
-            PowerButton { iconTxt: ""; cmd: "hyprctl dispatch \"hl.dsp.exec_cmd(\'hyprshutdown -t Poweroff --post-cmd \"poweroff\"\')" }
+    component PowerButton: Rectangle {
+        id: btn
+        property string iconTxt: ""
+        property string cmd: ""
+
+        implicitWidth: 50
+        implicitHeight: 50
+        radius: 25
+
+        color: mouseArea.containsMouse ? Theme.primary : "transparent"
+        border.color: Theme.primary
+        border.width: 1
+
+        Text {
+            anchors.centerIn: parent
+            text: btn.iconTxt
+            font.family: "monospace"
+            font.pixelSize: 20
+            color: mouseArea.containsMouse ? Theme.background : Theme.primary
+        }
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: {
+                powerProcess.command = ["bash", "-c", btn.cmd];
+                powerProcess.running = true;
+                root.isOpen = false; // Trigger the slide-out animation!
+            }
         }
     }
 }
