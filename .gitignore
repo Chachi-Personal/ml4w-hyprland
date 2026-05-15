@@ -18,3 +18,6 @@
 /.config/btop/themes/matugen.theme
 /.config/btop/themes/matugen.theme
 /.config/ml4w/colors/onprimary
+/.config/quickshell/CustomTheme/Theme.qml
+/.config/quickshell/overview/common/Appearance.colors.qml
+/.config/quickshell/.qmlls.ini
