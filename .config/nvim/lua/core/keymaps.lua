@@ -2,7 +2,6 @@ local map = vim.keymap.set
 
 -- ─── General ──────────────────────────────────────────────────────────────────
 -- restart
-require("which-key").add({ { "<leader>r", group = "Restart" } })
 map("n", "<leader>re", "<cmd>:restart<CR>", { desc = "Restart Neovim (:restart)", silent = true })
 
 map("n", "<C-s>", "<cmd>silent! update! | redraw<CR>", { desc = "Save" })
@@ -10,7 +9,6 @@ map("i", "<C-s>", "<Esc><cmd>silent! update! | redraw<CR>", { desc = "Save" })
 map("v", "<C-s>", "<Esc><cmd>silent! update! | redraw<CR>", { desc = "Save" })
 
 -- Plugin management (vim.pack)
-require("which-key").add({ { "<leader>p", group = "Pack" } })
 map("n", "<leader>pu", "<cmd>lua vim.pack.update()<CR>", { silent = true, desc = "Update plugins" })
 map("n", "<leader>px", "<cmd>PackCheck<CR>", { silent = true, desc = "Clean plugins" })
 
@@ -62,7 +60,6 @@ map("n", "|", "<Cmd>vsplit<CR>", { desc = "Vertical split" })
 map("n", "\\", "<Cmd>split<CR>", { desc = "Horizontal split" })
 
 -- ─── Diagnostics / quickfix ───────────────────────────────────────────────────
-require("which-key").add({ { "<leader>x", group = "List" } })
 map("n", "<leader>xq", "<Cmd>copen<CR>", { desc = "Quickfix list" })
 map("n", "<leader>xl", "<Cmd>lopen<CR>", { desc = "Location list" })
 
@@ -82,7 +79,6 @@ map("n", "]w", function()
 end, { desc = "Next warning" })
 
 -- ─── Buffers ──────────────────────────────────────────────────────────────────
-require("which-key").add({ { "<leader>b", group = "Buffers" } })
 map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
 map("n", "[b", "<Cmd>bprevious<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bp", "<Cmd>bprevious<CR>", { desc = "Previous buffer" })
@@ -160,7 +156,6 @@ map({ "n", "v" }, "<leader>y", function()
 end, { desc = "Copy clipboard as text/html MIME" })
 
 -- ─── Spell ────────────────────────────────────────────────────────────────────
-require("which-key").add({ { "<leader>s", group = "Spell" } })
 map("n", "<leader>sa", "zg", { desc = "Spell: add word to dictionary" })
 map("n", "<leader>sx", "zw", { desc = "Spell: mark word as bad" })
 map("n", "<leader>s?", "z=", { desc = "Spell: show suggestions" })

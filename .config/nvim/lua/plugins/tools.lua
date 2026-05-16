@@ -35,7 +35,6 @@ lazy_packages.register("plenary.nvim")
 
 -- ─── Toggleterm ───────────────────────────────────────────────────────────────
 lazy_packages.register("toggleterm.nvim")
-require("which-key").add({ { "<leader>t", group = "Terminal" } })
 au("CmdUndefined", {
 	group = aug("LazyLoad_Toggleterm", { clear = true }),
 	pattern = { "ToggleTerm", "TermExec" },

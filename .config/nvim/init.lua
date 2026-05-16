@@ -17,12 +17,12 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Core Plugins
-require("core.whichkey")
 require("core.options")
 require("core.keymaps")
-require("core.autocmds")
 require("core.ui")
+require("core.whichkey")
 require("core.snacks")
+require("core.autocmds")
 
 -- Lsp Plugins
 require("lsp")

@@ -14,16 +14,6 @@ require("sidekick").setup({
 
 local map = vim.keymap.set
 
-local ok, wk = pcall(require, "which-key")
-if ok then
-	wk.add({
-		{
-			"<leader>a",
-			group = "AI",
-		},
-	})
-end
-
 map("n", "<Tab>", function()
 	if not require("sidekick").nes_jump_or_apply() then
 		return "<Tab>"

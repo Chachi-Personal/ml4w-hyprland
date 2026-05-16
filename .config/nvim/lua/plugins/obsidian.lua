@@ -1,6 +1,5 @@
 local lazy_packages = require("plugins.lazy_packages")
 lazy_packages.register("obsidian.nvim")
-require("which-key").add({ { "<leader>o", group = "Obsidian" } })
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	-- Hyprland config files don't have a standard filetype; match by filename
 	pattern = { "/home/chachi/Vault/*.md" },
