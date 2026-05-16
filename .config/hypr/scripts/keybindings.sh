@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
-#    __            __   _         ___             
+#    __            __   _         ___
 #   / /_____ __ __/ /  (_)__  ___/ (_)__  ___ ____
 #  /  '_/ -_) // / _ \/ / _ \/ _  / / _ \/ _ `(_-<
 # /_/\_\\__/\_, /_.__/_/_//_/\_,_/_/_//_/\_, /___/
-#          /___/                        /___/     
-# 
+#          /___/                        /___/
+#
 
 # -----------------------------------------------------
 # Get keybindings location based on variation
 # -----------------------------------------------------
 config_file=$(<~/.config/hypr/conf/keybinding.conf)
 config_file=${config_file//source = ~//home/$USER}
+config_file=${config_file//source = ~/$([ -d "/home/$USER" ] && echo "/home/$USER" || echo "$HOME")}
 
 # -----------------------------------------------------
 # Load Launcher
@@ -127,7 +128,6 @@ keybinds=$(awk -F'[=#]' '
                 print combo
         }
     }' "$config_file")
-
 
 sleep 0.2
 
