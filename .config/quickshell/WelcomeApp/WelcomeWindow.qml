@@ -18,7 +18,7 @@ FloatingWindow {
     IpcHandler {
         target: "welcome"
         function toggle(): void {
-            root.visible = !root.visible
+            root.visible = !root.visible;
         }
     }
 
@@ -26,12 +26,12 @@ FloatingWindow {
     Process {
         command: ["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-flatpak-installed com.ml4w.hyprlandsettings"]
         running: root.visible
-        
+
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log(this.text.trim())
+                console.log(this.text.trim());
                 // The script echoes "0" if the app exists/is installed
-                root.isHyprlandSettingsInstalled = (this.text.trim() === "0")
+                root.isHyprlandSettingsInstalled = (this.text.trim() === "0");
             }
         }
     }
@@ -39,16 +39,16 @@ FloatingWindow {
     // Define a custom reusable styled MenuItem
     component ML4WMenuItem: MenuItem {
         id: control
-        
+
         contentItem: Text {
             text: control.text
             font.family: Theme.fontFamily
             font.pixelSize: 14
             // Invert colors on hover
-            color: control.highlighted ? Theme.background : Theme.primary 
+            color: control.highlighted ? Theme.background : Theme.primary
             verticalAlignment: Text.AlignVCenter
         }
-        
+
         background: Rectangle {
             implicitWidth: 220
             implicitHeight: 36
@@ -90,67 +90,83 @@ FloatingWindow {
                 title: qsTr("Settings")
                 font.family: Theme.fontFamily
                 font.pixelSize: 14
-                padding:8
+                padding: 8
 
-                enter: Transition { NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200; easing.type: Easing.OutQuad } }
-                exit: Transition { NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 150; easing.type: Easing.InQuad } }
+                enter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0.0
+                        to: 1.0
+                        duration: 200
+                        easing.type: Easing.OutQuad
+                    }
+                }
+                exit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1.0
+                        to: 0.0
+                        duration: 150
+                        easing.type: Easing.InQuad
+                    }
+                }
 
-                ML4WMenuItem { 
-                    text: qsTr("Keyboard");
+                ML4WMenuItem {
+                    text: qsTr("Keyboard")
                     onClicked: {
-                        Quickshell.execDetached(["gnome-text-editor", Quickshell.env("HOME") + "/.config/hypr/conf/keyboard.conf"])
+                        Quickshell.execDetached(["gnome-text-editor", Quickshell.env("HOME") + "/.config/hypr/conf/keyboard.conf"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Monitors");
-                    onClicked: { 
-                        Quickshell.execDetached(["nwg-displays"])
+                ML4WMenuItem {
+                    text: qsTr("Monitors")
+                    onClicked: {
+                        Quickshell.execDetached(["nwg-displays"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Network");
-                    onClicked: { 
-                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-network"])
-                    }
-                }    
-                ML4WMenuItem { 
-                    text: qsTr("Bluetooth");
-                    onClicked: { 
-                        Quickshell.execDetached(["blueman-manager"])
+                ML4WMenuItem {
+                    text: qsTr("Network")
+                    onClicked: {
+                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-network"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Wallpaper");
-                    onClicked: { 
-                        Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper-app"])
+                ML4WMenuItem {
+                    text: qsTr("Bluetooth")
+                    onClicked: {
+                        Quickshell.execDetached(["blueman-manager"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Theme");
-                    onClicked: { 
-                        Quickshell.execDetached(["nwg-look"])
+                ML4WMenuItem {
+                    text: qsTr("Wallpaper")
+                    onClicked: {
+                        Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper-app"]);
+                    }
+                }
+                ML4WMenuItem {
+                    text: qsTr("Theme")
+                    onClicked: {
+                        Quickshell.execDetached(["nwg-look"]);
                     }
                 }
                 ML4WMenuSeparator {}
-                ML4WMenuItem { 
-                    text: qsTr("Sidebar");
+                ML4WMenuItem {
+                    text: qsTr("Sidebar")
                     onClicked: {
-                        Quickshell.execDetached(["qs", "ipc", "call", "sidebar", "toggle"])
+                        Quickshell.execDetached(["qs", "ipc", "call", "sidebar", "toggle"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Dotfiles Settings");
+                ML4WMenuItem {
+                    text: qsTr("Dotfiles Settings")
                     onClicked: {
-                        Quickshell.execDetached(["qs", "-p", Quickshell.env("HOME") + "/.local/share/ml4w-dotfiles-settings/quickshell", "ipc", "call", "settings", "toggle"])
+                        Quickshell.execDetached(["qs", "-p", Quickshell.env("HOME") + "/.local/share/ml4w-dotfiles-settings/quickshell", "ipc", "call", "settings", "toggle"]);
                     }
                 }
-                ML4WMenuItem { 
+                ML4WMenuItem {
                     text: root.isHyprlandSettingsInstalled ? qsTr("Hyprland Settings") : qsTr("Install Hyprland Settings")
-                    onClicked: { 
+                    onClicked: {
                         if (root.isHyprlandSettingsInstalled) {
-                            Quickshell.execDetached(["bash","-c","flatpak run com.ml4w.hyprlandsettings"])
+                            Quickshell.execDetached(["bash", "-c", "flatpak run com.ml4w.hyprlandsettings"]);
                         } else {
-                            Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-install-hyprlandsettings"])
+                            Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-install-hyprlandsettings"]);
                         }
                     }
                 }
@@ -168,40 +184,56 @@ FloatingWindow {
                 title: qsTr("System")
                 font.family: Theme.fontFamily
                 font.pixelSize: 14
-                padding:8
-                
-                enter: Transition { NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200; easing.type: Easing.OutQuad } }
-                exit: Transition { NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 150; easing.type: Easing.InQuad } }
+                padding: 8
 
-                ML4WMenuItem { 
-                    text: qsTr("Display Manager");
-                    onClicked: { 
-                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-install-sddm"]) 
+                enter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0.0
+                        to: 1.0
+                        duration: 200
+                        easing.type: Easing.OutQuad
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Network Manager Applet");
-                    onClicked: { 
-                        Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-toggle-nmapplet"])
+                exit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1.0
+                        to: 0.0
+                        duration: 150
+                        easing.type: Easing.InQuad
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("Change Shell");
-                    onClicked: { 
-                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-change-shell"])
+
+                ML4WMenuItem {
+                    text: qsTr("Display Manager")
+                    onClicked: {
+                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-install-sddm"]);
                     }
                 }
-                ML4WMenuItem { 
-                    text: qsTr("System Info") 
-                    onClicked: { 
-                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/hypr/scripts/systeminfo.sh"])
+                ML4WMenuItem {
+                    text: qsTr("Network Manager Applet")
+                    onClicked: {
+                        Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-toggle-nmapplet"]);
+                    }
+                }
+                ML4WMenuItem {
+                    text: qsTr("Change Shell")
+                    onClicked: {
+                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-change-shell"]);
+                    }
+                }
+                ML4WMenuItem {
+                    text: qsTr("System Info")
+                    onClicked: {
+                        Quickshell.execDetached(["kitty", "--class", "dotfiles-floating", "-e", Quickshell.env("HOME") + "/.config/hypr/scripts/systeminfo.sh"]);
                     }
                 }
                 ML4WMenuSeparator {}
-                ML4WMenuItem { 
-                    text: qsTr("Exit Hyprland") 
+                ML4WMenuItem {
+                    text: qsTr("Exit Hyprland")
                     onClicked: {
-                        Quickshell.execDetached(["bash", "-c", "qs ipc call power toggle"])
+                        Quickshell.execDetached(["bash", "-c", "qs ipc call power toggle"]);
                     }
                 }
 
@@ -219,43 +251,75 @@ FloatingWindow {
                 title: qsTr("Help")
                 font.family: Theme.fontFamily
                 font.pixelSize: 14
-                padding:8
-                
-                enter: Transition { NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200; easing.type: Easing.OutQuad } }
-                exit: Transition { NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 150; easing.type: Easing.InQuad } }
+                padding: 8
 
-                ML4WMenuItem { text: qsTr("ML4W OS Homepage"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://ml4w.com/os/"])
+                enter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0.0
+                        to: 1.0
+                        duration: 200
+                        easing.type: Easing.OutQuad
                     }
                 }
-                ML4WMenuItem { text: qsTr("ML4W OS GitHub"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/dotfiles"]) 
-                    } 
+                exit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1.0
+                        to: 0.0
+                        duration: 150
+                        easing.type: Easing.InQuad
+                    }
                 }
-                ML4WMenuItem { text: qsTr("ML4W OS Changelog"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/dotfiles/blob/main/CHANGELOG.md"]) 
-                    } 
+
+                ML4WMenuItem {
+                    text: qsTr("ML4W OS Homepage")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://ml4w.com/os/"]);
+                    }
                 }
-                ML4WMenuItem { text: qsTr("ML4W YouTube Channel"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://www.youtube.com/channel/UC0sUzmZ0CHvVCVrpRfGKZfw"]) 
-                    } 
+                ML4WMenuItem {
+                    text: qsTr("ML4W OS GitHub")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/dotfiles"]);
+                    }
                 }
-                ML4WMenuItem { text: qsTr("Get more Wallpapers"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]) 
-                    } 
+                ML4WMenuItem {
+                    text: qsTr("ML4W OS Changelog")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/dotfiles/blob/main/CHANGELOG.md"]);
+                    }
+                }
+                ML4WMenuItem {
+                    text: qsTr("ML4W YouTube Channel")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://www.youtube.com/channel/UC0sUzmZ0CHvVCVrpRfGKZfw"]);
+                    }
+                }
+                ML4WMenuItem {
+                    text: qsTr("Get more Wallpapers")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]);
+                    }
                 }
                 ML4WMenuSeparator {}
-                ML4WMenuItem { text: qsTr("Hyprland Homepage"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]) 
-                    } 
+                ML4WMenuItem {
+                    text: qsTr("Hyprland Homepage")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]);
+                    }
                 }
-                ML4WMenuItem { text: qsTr("Hyprland Wiki"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]) 
-                    } 
+                ML4WMenuItem {
+                    text: qsTr("Hyprland Wiki")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://github.com/mylinuxforwork/wallpaper"]);
+                    }
                 }
-                ML4WMenuItem { text: qsTr("Update ML4W OS"); onClicked: { 
-                    Quickshell.execDetached(["xdg-open", "https://ml4w.com/os/getting-started/update"]) 
-                    } 
+                ML4WMenuItem {
+                    text: qsTr("Update ML4W OS")
+                    onClicked: {
+                        Quickshell.execDetached(["xdg-open", "https://ml4w.com/os/getting-started/update"]);
+                    }
                 }
 
                 background: Rectangle {
@@ -297,7 +361,7 @@ FloatingWindow {
                 anchors.margins: 10
                 spacing: 10
 
-                // --- MAIN HERO SECTION --- 
+                // --- MAIN HERO SECTION ---
                 ColumnLayout {
                     Layout.alignment: Qt.AlignHCenter
                     spacing: 5
@@ -306,7 +370,7 @@ FloatingWindow {
                     Image {
                         Layout.alignment: Qt.AlignHCenter
                         source: "../shared/ml4w.svg"
-                        sourceSize.width: 100 
+                        sourceSize.width: 100
                         sourceSize.height: 100
                         width: 100
                         height: 100
@@ -340,7 +404,7 @@ FloatingWindow {
                         Button {
                             text: "Dotfiles Settings"
                             onClicked: {
-                                Quickshell.execDetached(["qs", "-p", Quickshell.env("HOME") + "/.local/share/ml4w-dotfiles-settings/quickshell", "ipc", "call", "settings", "toggle"])
+                                Quickshell.execDetached(["qs", "-p", Quickshell.env("HOME") + "/.local/share/ml4w-dotfiles-settings/quickshell", "ipc", "call", "settings", "toggle"]);
                             }
                             background: Rectangle {
                                 color: "transparent"
@@ -358,10 +422,10 @@ FloatingWindow {
                         // --- VISIBILITY BOUND TO GUARD PROPERTY ---
                         Button {
                             text: "Hyprland Settings"
-                            visible: root.isHyprlandSettingsInstalled 
-                            
+                            visible: root.isHyprlandSettingsInstalled
+
                             onClicked: {
-                                Quickshell.execDetached(["flatpak", "run", "com.ml4w.hyprlandsettings"])
+                                Quickshell.execDetached(["flatpak", "run", "com.ml4w.hyprlandsettings"]);
                             }
                             background: Rectangle {
                                 color: "transparent"
@@ -378,7 +442,9 @@ FloatingWindow {
                     }
                 }
 
-                Item { Layout.fillHeight: true } // Spacer
+                Item {
+                    Layout.fillHeight: true
+                } // Spacer
 
                 // --- KEYBINDINGS GRID ---
                 ColumnLayout {
@@ -387,17 +453,35 @@ FloatingWindow {
 
                     Repeater {
                         model: ListModel {
-                            ListElement { keys: "Super + Enter"; desc: "to open the terminal" }
-                            ListElement { keys: "Super + B"; desc: "to open the browser" }
-                            ListElement { keys: "Super + Q"; desc: "to close the active window" }
-                            ListElement { keys: "Super + CTRL + Enter"; desc: "to open the application launcher" }
-                            ListElement { keys: "Super + CTRL + S"; desc: "to open the sidebar" }
-                            ListElement { keys: "Super + CTRL + W"; desc: "to set a wallpaper" }
+                            ListElement {
+                                keys: "Super + Enter"
+                                desc: "to open the terminal"
+                            }
+                            ListElement {
+                                keys: "Super + W"
+                                desc: "to open the browser"
+                            }
+                            ListElement {
+                                keys: "Super + Q"
+                                desc: "to close the active window"
+                            }
+                            ListElement {
+                                keys: "Super + D"
+                                desc: "to open the application launcher"
+                            }
+                            ListElement {
+                                keys: "Super + CTRL + S"
+                                desc: "to open the sidebar"
+                            }
+                            ListElement {
+                                keys: "Super + CTRL + W"
+                                desc: "to set a wallpaper"
+                            }
                         }
-                        
+
                         delegate: RowLayout {
                             spacing: 15
-                            
+
                             Text {
                                 text: model.keys
                                 color: Theme.primary
@@ -407,7 +491,7 @@ FloatingWindow {
                                 Layout.preferredWidth: 120
                                 horizontalAlignment: Text.AlignRight
                             }
-                            
+
                             Text {
                                 text: model.desc
                                 color: Theme.on_background
@@ -424,7 +508,7 @@ FloatingWindow {
                         text: "All keybindings"
 
                         onClicked: {
-                            Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/hypr/scripts/keybindings.sh"])
+                            Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/hypr/scripts/keybindings.sh"]);
                         }
 
                         background: Rectangle {
@@ -440,8 +524,10 @@ FloatingWindow {
                         }
                     }
                 }
-                
-                Item { Layout.fillHeight: true } 
+
+                Item {
+                    Layout.fillHeight: true
+                }
 
                 // ==========================================
                 // BOTTOM BAR
@@ -453,7 +539,7 @@ FloatingWindow {
                     // --- NEW TOGGLE BUTTON (Left Side) ---
                     Button {
                         text: "Toggle Tiling/Floating"
-                        
+
                         // Styled to be slightly smaller and compact
                         background: Rectangle {
                             color: "transparent"
@@ -461,7 +547,7 @@ FloatingWindow {
                             border.width: 1
                             radius: 6
                         }
-                        
+
                         contentItem: Text {
                             text: parent.text
                             font.family: Theme.fontFamily
@@ -473,13 +559,15 @@ FloatingWindow {
                             leftPadding: 10
                             rightPadding: 10
                         }
-                        
+
                         onClicked: {
-                            Quickshell.execDetached(["hyprctl", "dispatch", "togglefloating"])
+                            Quickshell.execDetached(["hyprctl", "dispatch", "togglefloating"]);
                         }
                     }
 
-                    Item { Layout.fillWidth: true }
+                    Item {
+                        Layout.fillWidth: true
+                    }
 
                     Text {
                         text: qsTr("Show on Startup")
@@ -492,7 +580,7 @@ FloatingWindow {
                     Switch {
                         id: autostartSwitch
                         Layout.alignment: Qt.AlignVCenter
-                        
+
                         implicitWidth: 48
                         implicitHeight: 26
 
@@ -503,13 +591,13 @@ FloatingWindow {
                             running: root.visible
                             stdout: StdioCollector {
                                 onStreamFinished: {
-                                    let output = this.text.trim()
+                                    let output = this.text.trim();
                                     if (output === "exists") {
-                                        autostartSwitch.checked = false 
+                                        autostartSwitch.checked = false;
                                     } else if (output === "missing") {
-                                        autostartSwitch.checked = true  
+                                        autostartSwitch.checked = true;
                                     }
-                                    autostartSwitch.ready = true
+                                    autostartSwitch.ready = true;
                                 }
                             }
                         }
@@ -518,7 +606,7 @@ FloatingWindow {
                             implicitWidth: 48
                             implicitHeight: 26
                             radius: 13
-                            
+
                             color: autostartSwitch.checked ? Theme.primary : Theme.background
                             border.color: Theme.primary
                             border.width: 1
@@ -527,23 +615,28 @@ FloatingWindow {
                                 x: autostartSwitch.checked ? parent.width - width - 2 : 2
                                 y: 2
                                 width: 22
-                                height: 22 
+                                height: 22
                                 radius: 11
                                 color: autostartSwitch.checked ? Theme.background : Theme.on_primary
-                                Behavior on x { NumberAnimation { duration: 150 } }
+                                Behavior on x {
+                                    NumberAnimation {
+                                        duration: 150
+                                    }
+                                }
                             }
                         }
 
                         onClicked: {
-                            if (!ready) return;
+                            if (!ready)
+                                return;
                             if (checked) {
-                                Quickshell.execDetached(["rm", "-f", Quickshell.env("HOME") + "/.cache/ml4w-welcome-autostart"])
+                                Quickshell.execDetached(["rm", "-f", Quickshell.env("HOME") + "/.cache/ml4w-welcome-autostart"]);
                             } else {
-                                Quickshell.execDetached(["touch", Quickshell.env("HOME") + "/.cache/ml4w-welcome-autostart"])
+                                Quickshell.execDetached(["touch", Quickshell.env("HOME") + "/.cache/ml4w-welcome-autostart"]);
                             }
                         }
                     }
-                }                
+                }
             }
         }
     }

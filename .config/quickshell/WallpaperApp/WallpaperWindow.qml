@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
@@ -5,7 +6,6 @@ import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Qt.labs.folderlistmodel
 import Qt5Compat.GraphicalEffects
 import qs.CustomTheme
 
@@ -183,7 +183,7 @@ PanelWindow {
     component SettingsWheel: Button {
         implicitWidth: 28
         implicitHeight: 28
-        text: ""
+        text: "󰒓"
         font.family: "monospace"
         background: Rectangle {
             color: "transparent"
@@ -339,6 +339,9 @@ PanelWindow {
                 delegate: Item {
                     width: grid.cellWidth
                     height: grid.cellHeight
+                    required property string filePath
+                    required property string fileName
+                    required property int index
 
                     Rectangle {
                         anchors.fill: parent
@@ -378,7 +381,7 @@ PanelWindow {
                             Image {
                                 id: thumbnail
                                 anchors.fill: parent
-                                source: "file://" + model.filePath
+                                source: "file://" + filePath
                                 fillMode: Image.PreserveAspectCrop
                                 asynchronous: true
                                 sourceSize.width: 250
@@ -409,7 +412,7 @@ PanelWindow {
 
                                 Text {
                                     anchors.centerIn: parent
-                                    text: model.fileName
+                                    text: fileName
                                     color: "white"
                                     font.pixelSize: 11
                                     elide: Text.ElideRight
@@ -427,7 +430,7 @@ PanelWindow {
 
                             onClicked: {
                                 let scriptPath = Quickshell.env("HOME") + "/.config/ml4w/scripts/ml4w-wallpaper";
-                                Quickshell.execDetached(["bash", "-c", scriptPath + " '" + model.filePath + "'"]);
+                                Quickshell.execDetached(["bash", "-c", scriptPath + " '" + filePath + "'"]);
                             }
                         }
                     }
