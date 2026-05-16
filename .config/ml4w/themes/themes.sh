@@ -10,7 +10,7 @@ launcher=$(cat $HOME/.config/ml4w/settings/launcher)
 # -----------------------------------------------------
 # Themes
 # -----------------------------------------------------
-if command -v walker > /dev/null 2>&1; then
+if command -v walker >/dev/null 2>&1; then
     # Walker installed
     THEME_OPTIONS=$(find "$SCRIPT_DIR" -maxdepth 1 -mindepth 1 -type d | awk -F/ '{ print $NF }')
 else
@@ -24,7 +24,7 @@ fi
 if [ "$launcher" == "walker" ]; then
     selected_theme=$($HOME/.config/walker/launch.sh -d -N -H -p "Search Theme" <<<"$THEME_OPTIONS")
 else
-    selected_theme=$(rofi -dmenu -i -markup -eh 2 -replace -p "Keybinds" -config ~/.config/rofi/config-compact.rasi <<<"$THEME_OPTIONS")
+    selected_theme=$(rofi -dmenu -replace -config ~/.config/rofi/config-themes.rasi -i -no-show-icons -l 5 -width 30 <<<"$THEME_OPTIONS")
 fi
 
 # -----------------------------------------------------
