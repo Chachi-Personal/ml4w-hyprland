@@ -8,6 +8,7 @@ local langs = {
 	"markdown",
 	"nix",
 	"python",
+	"qt",
 	"rust",
 	"typescript",
 	"typst",
