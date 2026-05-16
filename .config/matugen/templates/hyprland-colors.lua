@@ -1,4 +1,3 @@
-
 -- --------------------------
 -- Hyprland Colors
 -- Generated with Matugen

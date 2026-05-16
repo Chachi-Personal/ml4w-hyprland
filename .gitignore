@@ -21,3 +21,4 @@
 /.config/quickshell/CustomTheme/Theme.qml
 /.config/quickshell/overview/common/Appearance.colors.qml
 /.config/quickshell/.qmlls.ini
+/.config/hypr/colors.lua
