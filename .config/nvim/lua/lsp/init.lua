@@ -7,6 +7,7 @@ local langs = {
 	"lua",
 	"markdown",
 	"nix",
+	"php",
 	"python",
 	"qt",
 	"rust",

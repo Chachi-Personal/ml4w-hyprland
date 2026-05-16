@@ -272,3 +272,9 @@ autocmd("BufWritePost", {
 		vim.cmd("silent! mkspell! " .. vim.fn.expand("<afile>"))
 	end,
 })
+
+vim.filetype.add({
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+	},
+})
