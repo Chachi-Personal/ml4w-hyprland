@@ -5,6 +5,7 @@ import "PowerApp"
 import "SidebarApp"
 import "CalendarApp"
 import "WallpaperApp"
+// import "BarApp"
 import "CustomTheme"
 
 ShellRoot {
@@ -22,4 +23,5 @@ ShellRoot {
     SidebarWindow {}
     CalendarWindow {}
     WallpaperWindow {}
+    // BarWindow {}
 }
