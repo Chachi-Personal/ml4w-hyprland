@@ -1,64 +1,72 @@
 local M = {}
 
-M.is_active = false
+-- Path constants (mirrors the shell script)
+local cache_dir = os.getenv("HOME") .. "/.cache/ml4w/hyprland-dotfiles"
+local flag_file = os.getenv("HOME") .. "/.config/ml4w/settings/gamemode-enabled"
+local wpauto_cache = cache_dir .. "/wallpaper-automation"
+local wpauto_restart = cache_dir .. "/restart-wpauto"
+local wpauto_script = os.getenv("HOME") .. "/.config/ml4w/scripts/ml4w-wallpaper-automation"
+
+-- Helper: check if a file exists
+local function file_exists(path)
+	local f = io.open(path, "r")
+	if f then
+		f:close()
+		return true
+	end
+	return false
+end
+
+-- Derive actual state from the flag file, not from a variable.
+-- This survives config reloads correctly.
+local function is_active()
+	return file_exists(flag_file)
+end
 
 M.toggle = function()
-	if M.is_active then
-		hl.config({
-			decoration = {
-				rounding = 10,
-				rounding_power = 4,
-				active_opacity = 1.0,
-				inactive_opacity = 0.9,
-				fullscreen_opacity = 1.0,
+	if is_active() then
+		-- ── DEACTIVATE ────────────────────────────────────────────────────
 
-				shadow = {
-					enabled = true,
-					range = 32,
-					render_power = 2,
-					color = "rgba(00000050)",
-				},
+		-- Resume wallpaper automation if it was stopped
+		if file_exists(wpauto_restart) then
+			os.remove(wpauto_restart)
+			hl.exec_cmd(wpauto_script .. " &")
+		end
 
-				blur = {
-					enabled = true,
-					size = 8,
-					passes = 4,
-					new_optimizations = true,
-					ignore_opacity = true,
-					xray = true,
-					vibrancy = 0.1696,
-					-- popups = true,
-					-- popups_ignorealpha = 0.2,
-					-- input_methods = true,
-				},
-			},
-		})
+		-- Reload config — restores decoration.lua / animation.lua / window.lua
+		hl.exec_cmd("hyprctl reload")
+
+		os.remove(flag_file)
+
+		hl.exec_cmd("notify-send -a 'System' -i joystick 'Gamemode deactivated' 'Animations and blur are now enabled.'")
 	else
+		-- ── ACTIVATE ──────────────────────────────────────────────────────
+
+		-- Stop wallpaper automation if running
+		if file_exists(wpauto_cache) then
+			io.open(wpauto_restart, "w"):close() -- touch
+			hl.exec_cmd(wpauto_script)
+		end
+
 		hl.config({
+			animations = { enabled = false },
 			decoration = {
 				rounding = 0,
 				rounding_power = 2,
 				active_opacity = 1.0,
-				inactive_opacity = 1,
+				inactive_opacity = 1.0,
 				fullscreen_opacity = 1.0,
-
-				shadow = {
-					enabled = false,
-				},
-
-				blur = {
-					enabled = false,
-				},
+				shadow = { enabled = false },
+				blur = { enabled = false },
 			},
+			general = { gaps_in = 0, gaps_out = 0, border_size = 1 },
 		})
+
+		-- Write the flag file
+		io.open(flag_file, "w"):close()
+
+		hl.exec_cmd("notify-send -a 'System' -i joystick 'Gamemode activated' 'Animations and blur are now disabled.'")
 	end
-	M.is_active = not M.is_active
-	hl.notification.create({
-		text = M.is_active and "Game mode enabled" or "Game mode disabled",
-		duration = 2000,
-	})
-	hl.dispatch(hl.dsp.exec_cmd("hyprctl dispatch aforcerendererreload"))
-	-- hl.dispatch(hl.dsp.exec_cmd("hyprctl reload"))
 end
 
 return M
