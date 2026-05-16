@@ -1,22 +1,7 @@
-local langs = {
-	"bash",
-	"cpp",
-	"eslint",
-	"html_css",
-	"hyprlang",
-	"lua",
-	"markdown",
-	"nix",
-	"php",
-	"python",
-	"qt",
-	"rust",
-	"typescript",
-	"typst",
-}
-
-for _, lang in ipairs(langs) do
-	require("lsp.langs." .. lang)
+local langs_dir = vim.fn.stdpath("config") .. "/lua/lsp/langs"
+for _, file in ipairs(vim.fn.glob(langs_dir .. "/*.lua", false, true)) do
+	local modname = vim.fn.fnamemodify(file, ":t:r") -- Get filename without extension
+	require("lsp.langs." .. modname)
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
