@@ -4,7 +4,6 @@
 #  / ___/ _ \ |/|/ / -_) __/
 # /_/   \___/__,__/\__/_/
 #
-
 if [[ "$1" == "exit" ]]; then
 	echo ":: Exit"
 	hyprshutdown -t "Exiting..." --post-cmd 'hyprctl dispatch "hl.dsp.exit()"'
