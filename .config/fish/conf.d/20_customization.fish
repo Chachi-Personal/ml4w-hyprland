@@ -39,6 +39,3 @@ set LESS "-SRF"
 eval "$($HOME/.local/bin/oh-my-posh init fish --config $HOME/.config/ohmyposh/powerlevel10k_lean.omp.json)"
 # eval "$($HOME/.local/bin/oh-my-posh init fish --config spaceship)"
 # eval "$($HOME/.local/bin/oh-my-posh init fish --config powerlevel10k_lean)"
-
-set -e __GLX_VENDOR_LIBRARY_NAME
-set -e LIBVA_DRIVER_NAME

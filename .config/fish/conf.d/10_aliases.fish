@@ -25,7 +25,6 @@ alias vi='$EDITOR'
 alias vim='$EDITOR'
 alias ts='~/.config/ml4w/scripts/arch/snapshot.sh'
 alias wifi='nmtui'
-alias cleanup='~/.config/ml4w/scripts/arch/cleanup.sh'
 alias which='type'
 alias open='xdg-open'
 alias grep='grep --color=auto'
@@ -40,15 +39,12 @@ alias yeet='paru -Rns'
 # -----------------------------------------------------
 # ML4W Apps
 # -----------------------------------------------------
-alias ml4w='flatpak run com.ml4w.welcome'
-alias ml4w-settings='flatpak run com.ml4w.settings'
-alias ml4w-calendar='flatpak run com.ml4w.calendar'
+alias ml4w='qs ipc call welcome toggle'
+alias ml4w-settings='qs -p ~/.local/share/ml4w-dotfiles-settings/quickshell ipc call settings toggle'
+alias ml4w-calendar='qs ipc call calendar toggle'
 alias ml4w-hyprland='flatpak run com.ml4w.hyprlandsettings'
-alias ml4w-sidebar='flatpak run com.ml4w.sidebar'
-alias ml4w-options='ml4w-hyprland-setup -m options'
-alias ml4w-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
-alias ml4w-hyprland-diagnosis='~/.config/hypr/scripts/diagnosis.sh'
-alias ml4w-qtile-diagnosis='~/.config/ml4w/qtile/scripts/diagnosis.sh'
+alias ml4w-sidebar='qs ipc call sidebar toggle'
+alias cleanup='~/.config/ml4w/scripts/ml4w-arch-cleanup'
 alias ml4w-update='~/.config/ml4w/scripts/installupdates.sh'
 
 # -----------------------------------------------------
@@ -71,11 +67,6 @@ alias gsp="git stash; git pull"
 alias gfo="git fetch origin"
 alias gcheck="git checkout"
 alias gcredential="git config credential.helper store"
-
-# -----------------------------------------------------
-# Scripts
-# -----------------------------------------------------
-alias ascii='~/.config/ml4w/scripts/figlet.sh'
 
 # -----------------------------------------------------
 # System
