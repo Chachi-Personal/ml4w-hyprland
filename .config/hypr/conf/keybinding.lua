@@ -29,10 +29,11 @@ local HYPRSCRIPTS = "~/.config/hypr/scripts"
 
 -- Applications
 local TERMINAL = "kitty"
-local BROWSER = "helium-browser"
+local BROWSER = "LIBVA_DRIVER_NAME=iHD helium-browser"
 local TOR_BROWSER = "brave --tor"
 local LAUNCHER = "~/.config/hypr/scripts/launcher.sh"
 local CALC = "~/.config/ml4w/settings/calculator.sh"
+local WALLPAPER = "~/.config/ml4w/scripts/ml4w-wallpaper-app"
 
 -- Applications
 bind(mod("RETURN"), exec(TERMINAL), { description = "Open terminal" })
@@ -66,7 +67,11 @@ bind(
 	hl.dsp.window.fullscreen({ mode = "fullscreen" }),
 	{ description = "Toggle active window to fullscreen" }
 )
-bind(mod("M"), hl.dsp.layout("colresize +conf"), { description = "Toggle active window to maximized (scrolling)" })
+bind(mod("M"), function()
+	hl.dispatch(hl.dsp.layout("colresize +conf"))
+	hl.dispatch(hl.dsp.layout("focus l"))
+	hl.dispatch(hl.dsp.layout("focus r"))
+end, { description = "Toggle active window to maximized (scrolling)" })
 -- 	-- hl.dsp.window.fullscreen_state({ internal = 0, client = 1, action = "toggle" }),
 -- 	{ description = "Toggle active window to maximized" }
 -- )
@@ -105,8 +110,8 @@ bind(
 	{ description = "Take an instant area screenshot" }
 )
 bind(mod("X"), exec("qs ipc call power toggle"), { description = "Start Power Menu" })
-bind(mod("N"), exec("waypaper --random"), { description = "Change the wallpaper" })
-bind(modShift("N"), exec("waypaper "), { description = "Open wallpaper selector" })
+bind(mod("N"), exec(WALLPAPER .. " --random"), { description = "Change the wallpaper" })
+bind(modShift("N"), exec(WALLPAPER), { description = "Open wallpaper selector" })
 -- bind(modControl("K"), require("lib.keybindings").show, { description = "Show keybindings" })
 bind(modShift("B"), exec("~/.config/waybar/launch.sh"))
 bind(modControl("B"), exec("~/.config/waybar/toggle.sh"))
@@ -114,6 +119,8 @@ bind(modShift("R"), function()
 	hl.dispatch(exec("hyprctl reload"))
 	require("lib.notifications").notify({ title = "Hyprland", message = "Config reloaded" })
 end)
+-- ML4W
+bind(modControl("S"), exec("qs ipc call sidebar toggle"), { description = "Open ML4W Sidebar widget" })
 -- # Workspaces
 bind(mod("TAB"), exec("qs -p ~/.config/quickshell/overview ipc call overview toggle"))
 bind(mod("1"), hl.dsp.focus({ workspace = 1, on_current_monitor = true }), { description = "Focus Workspace 1" })
