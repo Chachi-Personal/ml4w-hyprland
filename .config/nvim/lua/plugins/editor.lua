@@ -30,6 +30,26 @@ require("nvim-treesitter")
 	})
 	:wait() -- wait = install synchronously on first run
 
+-- Blade (Laravel) — custom parser, new API (get_parser_configs is gone)
+vim.api.nvim_create_autocmd("User", {
+	pattern = "TSUpdate",
+	callback = function()
+		require("nvim-treesitter.parsers").blade = {
+			install_info = {
+				url = "https://github.com/EmranMR/tree-sitter-blade",
+				branch = "main",
+			},
+			tier = 2,
+		}
+	end,
+})
+
+vim.filetype.add({
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+	},
+})
+
 -- Highlighting is now native — enable via autocmd
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("TS_Highlight", { clear = true }),
