@@ -150,6 +150,14 @@ hl.window_rule({
 	-- size = { 943, 1006 },
 })
 
+hl.window_rule({
+	name = "Gnome Calendar",
+	match = { class = "org.gnome.Calendar" },
+	float = true,
+	center = true,
+	size = "900 600",
+})
+
 -- ML4W Floating
 hl.window_rule({
 	name = "dotfiles-floating",
