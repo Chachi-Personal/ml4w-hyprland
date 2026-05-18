@@ -68,19 +68,54 @@ bind(
 	{ description = "Toggle active window to fullscreen" }
 )
 bind(mod("M"), function()
-	hl.dispatch(hl.dsp.layout("colresize +conf"))
-	hl.dispatch(hl.dsp.layout("focus l"))
-	hl.dispatch(hl.dsp.layout("focus r"))
-end, { description = "Toggle active window to maximized (scrolling)" })
--- 	-- hl.dsp.window.fullscreen_state({ internal = 0, client = 1, action = "toggle" }),
--- 	{ description = "Toggle active window to maximized" }
--- )
+	local layout = hl.get_config("general.layout")
+	if layout == "scrolling" then
+		hl.config({
+			general = {
+				layout = "monocle",
+				col = {
+					active_border = require("colors").on_primary,
+				},
+			},
+		})
+	else
+		hl.config({
+			general = {
+				layout = "scrolling",
+				col = {
+					active_border = { colors = { require("colors").primary, require("colors").on_primary }, angle = 90 },
+				},
+			},
+		})
+	end
+end, { description = "Toggle monocle layout" })
 
 bind(mod("T"), hl.dsp.window.float(), { description = "Toggle active window floating" })
-bind(mod("H"), hl.dsp.focus({ direction = "l" }), { description = "Focus left window" })
-bind(mod("J"), hl.dsp.focus({ direction = "d" }), { description = "Focus down window" })
-bind(mod("K"), hl.dsp.focus({ direction = "u" }), { description = "Focus up window" })
-bind(mod("L"), hl.dsp.focus({ direction = "r" }), { description = "Focus right window" })
+local move_or_cycle = function(direction)
+	local layout = hl.get_config("general.layout")
+	if layout == "monocle" then
+		hl.dispatch(hl.dsp.layout("cyclenext"))
+	elseif layout == "scrolling" then
+		hl.dispatch(hl.dsp.layout("focus " .. direction))
+	else
+		hl.notification.create({
+			text = "Unconfigured action for this layout",
+			duration = 2000,
+		})
+	end
+end
+bind(mod("H"), function()
+	move_or_cycle("l")
+end, { description = "Focus left window" })
+bind(mod("J"), function()
+	move_or_cycle("d")
+end, { description = "Focus down window" })
+bind(mod("K"), function()
+	move_or_cycle("u")
+end, { description = "Focus up window" })
+bind(mod("L"), function()
+	move_or_cycle("r")
+end, { description = "Focus right window" })
 bind(modShift("H"), hl.dsp.window.swap({ direction = "l" }), { description = "Swap with left window" })
 bind(modShift("J"), hl.dsp.window.swap({ direction = "d" }), { description = "Swap with down window" })
 bind(modShift("K"), hl.dsp.window.swap({ direction = "u" }), { description = "Swap with up window" })
@@ -91,10 +126,10 @@ bind(altShift("K"), hl.dsp.window.move({ direction = "u" }), { description = "Mo
 bind(altShift("J"), hl.dsp.window.move({ direction = "d" }), { description = "Move window down" })
 bind(mod("mouse:272"), hl.dsp.window.drag(), { mouse = true, description = "Move" })
 bind(mod("mouse:273"), hl.dsp.window.resize(), { mouse = true, description = "Resize" })
-bind(alt("Tab"), function()
-	hl.dispatch(hl.dsp.window.cycle_next())
-	hl.dispatch(hl.dsp.window.bring_to_top())
-end, { repeating = true })
+-- bind(alt("Tab"), function()
+-- 	hl.dispatch(hl.dsp.window.cycle_next({ next = true }))
+-- 	hl.dispatch(hl.dsp.window.alter_zorder({ mode = "bottom" }))
+-- end, { repeating = true })
 --
 -- # Actions
 bind("PRINT", exec(HYPRSCRIPTS .. "/screenshot.sh"), { description = "Take a screenshot" })
