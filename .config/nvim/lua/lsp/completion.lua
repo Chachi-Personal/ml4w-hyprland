@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 
 				-- Tab: cycle forward through list (text auto-inserts as you go)
 				-- Also jumps to next snippet placeholder AFTER acceptance
-				["<Tab>"] = { "snippet_forward", "show", "select_next", "fallback" },
+				["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 
 				-- Enter: accept selected item (expands snippet if it is one)
@@ -142,6 +142,14 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
+				python = {
+					-- To fix auto-fixable lint errors.
+					"ruff_fix",
+					-- To run the Ruff formatter.
+					"ruff_format",
+					-- To organize the imports.
+					"ruff_organize_imports",
+				},
 			},
 			format_on_save = { timeout_ms = 1000, lsp_fallback = true },
 		})
