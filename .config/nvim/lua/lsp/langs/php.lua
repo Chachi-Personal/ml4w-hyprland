@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "php", "blade" },
 	group = vim.api.nvim_create_augroup("Lang_PHP", { clear = true }),
-	once = true,
+	-- once = true  ← remove this
 	callback = function()
 		vim.lsp.enable("intelephense")
 
@@ -20,6 +20,14 @@ vim.api.nvim_create_autocmd("FileType", {
 			end)
 		end)
 
+		vim.opt.autoindent = true
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "blade",
+	group = vim.api.nvim_create_augroup("Lang_Blade_Comment", { clear = true }),
+	callback = function()
 		vim.bo.commentstring = "{{-- %s --}}"
 	end,
 })
