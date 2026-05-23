@@ -151,6 +151,21 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "helium-signin",
+	match = {
+		class = "helium",
+		title = "Sign in - Google Accounts - Helium",
+	},
+	float = true,
+})
+
+-- tile Canvas, Outlook, and MS Teams
+hl.window_rule({
+	match = { initial_title = "Canvas|Outlook \\(PWA\\)|Microsoft Teams \\(PWA\\)" },
+	float = false,
+})
+
+hl.window_rule({
 	name = "Gnome Calendar",
 	match = { class = "org.gnome.Calendar" },
 	float = true,
@@ -200,4 +215,13 @@ hl.window_rule({
 	name = "OpenGL App",
 	match = { title = "^(OpenGL App)$" },
 	float = true,
+})
+
+hl.window_rule({
+	name = "TTS Window",
+	match = { class = "mpv", title = "tts" },
+	suppress_event = "fullscreen",
+	float = true,
+	size = { 100, 50 },
+	move = { 10, 10 },
 })
