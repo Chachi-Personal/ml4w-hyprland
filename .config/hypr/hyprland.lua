@@ -1,6 +1,6 @@
 -- MONITORS
 -- require("monitors")
-require("conf.monitors") -- temporary workaround for the new monitor configuration system in Hyprland
+require("monitors") -- temporary workaround for the new monitor configuration system in Hyprland
 
 -- INPUT
 require("conf.input")
