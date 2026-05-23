@@ -68,26 +68,9 @@ bind(
 	{ description = "Toggle active window to fullscreen" }
 )
 bind(mod("M"), function()
-	local layout = hl.get_config("general.layout")
-	if layout == "scrolling" then
-		hl.config({
-			general = {
-				layout = "monocle",
-				col = {
-					active_border = require("colors").on_primary,
-				},
-			},
-		})
-	else
-		hl.config({
-			general = {
-				layout = "scrolling",
-				col = {
-					active_border = { colors = { require("colors").primary, require("colors").on_primary }, angle = 90 },
-				},
-			},
-		})
-	end
+	hl.dispatch(hl.dsp.layout("colresize +conf"))
+	hl.dispatch(hl.dsp.layout("focus l"))
+	hl.dispatch(hl.dsp.layout("focus r"))
 end, { description = "Toggle monocle layout" })
 
 bind(mod("T"), hl.dsp.window.float(), { description = "Toggle active window floating" })
@@ -96,7 +79,8 @@ local move_or_cycle = function(direction)
 	if layout == "monocle" then
 		hl.dispatch(hl.dsp.layout("cyclenext"))
 	elseif layout == "scrolling" then
-		hl.dispatch(hl.dsp.layout("focus " .. direction))
+		hl.dispatch(hl.dsp.focus({ direction = direction }))
+		-- hl.dispatch(hl.dsp.layout("focus " .. direction))
 	else
 		hl.notification.create({
 			text = "Unconfigured action for this layout",
@@ -134,6 +118,9 @@ bind(mod("mouse:273"), hl.dsp.window.resize(), { mouse = true, description = "Re
 -- # Actions
 bind("PRINT", exec(HYPRSCRIPTS .. "/screenshot.sh"), { description = "Take a screenshot" })
 bind(modShift("S"), exec("grimblast --notify copy area"), { description = "Copy area to clipboard" })
+bind(altShift("S"), hl.dsp.exec_cmd('grim -g "$(slurp)" - | tesseract stdin stdout -l chi_sim | wl-copy'))
+
+bind(alt("S"), hl.dsp.exec_cmd("/usr/bin/env -C /home/chachi/Videos/tools/sub_extract uv run ocr-screenshot.py --tts"))
 bind(
 	modAlt("F"),
 	exec(HYPRSCRIPTS .. "/screenshot.sh --instant"),
@@ -157,7 +144,7 @@ end)
 -- ML4W
 bind(modControl("S"), exec("qs ipc call sidebar toggle"), { description = "Open ML4W Sidebar widget" })
 -- # Workspaces
-bind(mod("TAB"), exec("qs -p ~/.config/quickshell/overview ipc call overview toggle"))
+-- bind(mod("TAB"), exec("qs -p ~/.config/quickshell/overview ipc call overview toggle"))
 bind(mod("1"), hl.dsp.focus({ workspace = 1, on_current_monitor = true }), { description = "Focus Workspace 1" })
 bind(mod("2"), hl.dsp.focus({ workspace = 2, on_current_monitor = true }), { description = "Focus Workspace 2" })
 bind(mod("3"), hl.dsp.focus({ workspace = 3, on_current_monitor = true }), { description = "Focus Workspace 3" })
