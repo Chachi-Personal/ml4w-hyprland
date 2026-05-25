@@ -150,6 +150,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 					-- To organize the imports.
 					"ruff_organize_imports",
 				},
+				c = { "clang-format" },
+				cpp = { "clang-format" },
 			},
 			format_on_save = { timeout_ms = 1000, lsp_fallback = true },
 		})
