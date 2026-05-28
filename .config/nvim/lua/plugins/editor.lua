@@ -62,21 +62,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Indentation via native treesitter
--- vim.api.nvim_create_autocmd("FileType", {
--- 	group = vim.api.nvim_create_augroup("TS_Indent", { clear = true }),
--- 	callback = function(ev)
--- 		local ok = pcall(function()
--- 			vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
--- 		end)
--- 	end,
--- })
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("TS_Indent", { clear = true }),
 	callback = function(ev)
-		local ok, ts = pcall(require, "nvim-treesitter")
-		if ok and ts.indentexpr then
+		local ok = pcall(function()
 			vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-		end
+		end)
 	end,
 })
 
