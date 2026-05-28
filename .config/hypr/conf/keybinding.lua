@@ -49,19 +49,52 @@ bind(modShift("KP_ENTER"), exec(TERMINAL .. " -e yazi"), { description = "Open f
 bind(altShift("W"), exec(TOR_BROWSER), { description = "Open browser in tor mode" })
 --
 -- # Display
+--
+bind(modShift("mouse_down"), function()
+	hl.config({
+		cursor = {
+			zoom_factor = hl.get_config("cursor:zoom_factor") + 0.5,
+		},
+	})
+end, { mouse = true, description = "Increease display zoom" })
+bind(modShift("mouse_up"), function()
+	hl.config({
+		cursor = {
+			zoom_factor = hl.get_config("cursor:zoom_factor") - 0.5,
+		},
+	})
+end, { mouse = true, description = "Decrease display zoom" })
+bind(modShift("Z"), function()
+	hl.config({
+		cursor = {
+			zoom_factor = 1,
+		},
+	})
+end, { desc = "Reset display zoom" })
 -- bind = $mainMod SHIFT, mouse_down, exec, hyprctl keyword cursor:zoom_factor $(awk "BEGIN {print $(hyprctl getoption cursor:zoom_factor | grep 'float:' | awk '{print $2}') + 0.5}") # Increase display zoom
 -- bind = $mainMod SHIFT, mouse_up, exec, hyprctl keyword cursor:zoom_factor $(awk "BEGIN {print $(hyprctl getoption cursor:zoom_factor | grep 'float:' | awk '{print $2}') - 0.5}") # Decrease display zoom
 -- bind = $mainMod SHIFT, Z, exec, hyprctl keyword cursor:zoom_factor 1 # Reset display zoom
 --
+
+-- # Workspaces
+local move_to_workspace = function(workspace)
+	local win = hl.get_active_window()
+	hl.dispatch(hl.dsp.focus({ workspace = workspace, on_current_monitor = true }))
+	hl.dispatch(hl.dsp.window.move({ workspace = workspace, window = win }))
+end
+for i = 1, 10, 1 do
+	bind(mod(tostring(i % 10)), function()
+		hl.dispatch(hl.dsp.focus({ workspace = i, on_current_monitor = true }))
+	end, { description = "Focus workspace " .. tostring(i) })
+	bind(modShift(tostring(i % 10)), function()
+		move_to_workspace(i)
+	end, { description = "Move active window to workspace " .. tostring(i) })
+end
+
 -- # Windows
 bind(mod("Q"), hl.dsp.window.close(), { description = "Quit window" })
 
-bind(modShift("Q"), function()
-	local w = hl.get_active_window()
-	if w ~= nil then
-		os.execute("kill " .. w.pid)
-	end
-end, { description = "Quit active window and all open instances" })
+bind(modShift("Q"), hl.dsp.window.kill(), { description = "Quit active window and all open instances" })
 bind(
 	mod("F"),
 	hl.dsp.window.fullscreen({ mode = "fullscreen" }),
@@ -143,29 +176,6 @@ bind(modShift("R"), function()
 end)
 -- ML4W
 bind(modControl("S"), exec("qs ipc call sidebar toggle"), { description = "Open ML4W Sidebar widget" })
--- # Workspaces
--- bind(mod("TAB"), exec("qs -p ~/.config/quickshell/overview ipc call overview toggle"))
-bind(mod("1"), hl.dsp.focus({ workspace = 1, on_current_monitor = true }), { description = "Focus Workspace 1" })
-bind(mod("2"), hl.dsp.focus({ workspace = 2, on_current_monitor = true }), { description = "Focus Workspace 2" })
-bind(mod("3"), hl.dsp.focus({ workspace = 3, on_current_monitor = true }), { description = "Focus Workspace 3" })
-bind(mod("4"), hl.dsp.focus({ workspace = 4, on_current_monitor = true }), { description = "Focus Workspace 4" })
-bind(mod("5"), hl.dsp.focus({ workspace = 5, on_current_monitor = true }), { description = "Focus Workspace 5" })
-bind(mod("6"), hl.dsp.focus({ workspace = 6, on_current_monitor = true }), { description = "Focus Workspace 6" })
-bind(mod("7"), hl.dsp.focus({ workspace = 7, on_current_monitor = true }), { description = "Focus Workspace 7" })
-bind(mod("8"), hl.dsp.focus({ workspace = 8, on_current_monitor = true }), { description = "Focus Workspace 8" })
-bind(mod("9"), hl.dsp.focus({ workspace = 9, on_current_monitor = true }), { description = "Focus Workspace 9" })
-bind(mod("0"), hl.dsp.focus({ workspace = 10, on_current_monitor = true }), { description = "Focus Workspace 10" })
---
-bind(modShift("1"), hl.dsp.window.move({ workspace = 1 }), { description = "Move active window to workspace 1" })
-bind(modShift("2"), hl.dsp.window.move({ workspace = 2 }), { description = "Move active window to workspace 2" })
-bind(modShift("3"), hl.dsp.window.move({ workspace = 3 }), { description = "Move active window to workspace 3" })
-bind(modShift("4"), hl.dsp.window.move({ workspace = 4 }), { description = "Move active window to workspace 4" })
-bind(modShift("5"), hl.dsp.window.move({ workspace = 5 }), { description = "Move active window to workspace 5" })
-bind(modShift("6"), hl.dsp.window.move({ workspace = 6 }), { description = "Move active window to workspace 6" })
-bind(modShift("7"), hl.dsp.window.move({ workspace = 7 }), { description = "Move active window to workspace 7" })
-bind(modShift("8"), hl.dsp.window.move({ workspace = 8 }), { description = "Move active window to workspace 8" })
-bind(modShift("9"), hl.dsp.window.move({ workspace = 9 }), { description = "Move active window to workspace 9" })
-bind(modShift("0"), hl.dsp.window.move({ workspace = 10 }), { description = "Move active window to workspace 10" })
 
 -- # Fn keys
 bind("XF86MonBrightnessUp", exec("brightnessctl -e4 -n2 set 5%+"), { description = "Increase brightness by 5%" })
@@ -205,101 +215,28 @@ bind(
 bind("mouse:277", hl.dsp.window.kill())
 
 bind(mod("G"), require("lib.game_mode").toggle)
--- bind(mod("G"), function()
--- 	local is_gamemode = hl.get_config("decoration.rounding")
--- 	if is_gamemode ~= 0 then
--- 		hl.config({
--- 			decoration = {
--- 				rounding = 0,
--- 				active_opacity = 1.0,
--- 				inactive_opacity = 0.9,
--- 				fullscreen_opacity = 1.0,
---
--- 				shadow = {
--- 					enabled = false,
--- 				},
---
--- 				blur = {
--- 					enabled = false,
--- 				},
--- 			},
--- 		})
--- 		exec("hyprctl reload")
--- 	else
--- 		hl.config({
--- 			decoration = {
--- 				rounding = 10,
--- 				rounding_power = 4,
--- 				active_opacity = 1.0,
--- 				inactive_opacity = 0.9,
--- 				fullscreen_opacity = 1.0,
---
--- 				shadow = {
--- 					enabled = true,
--- 					range = 32,
--- 					render_power = 2,
--- 					color = "rgba(00000050)",
--- 				},
---
--- 				blur = {
--- 					enabled = true,
--- 					size = 8,
--- 					passes = 4,
--- 					new_optimizations = true,
--- 					ignore_opacity = true,
--- 					xray = true,
--- 					vibrancy = 0.1696,
--- 					-- popups = true,
--- 					-- popups_ignorealpha = 0.2,
--- 					-- input_methods = true,
--- 				},
--- 			},
--- 		})
--- 		exec("hyprctl reload")
--- 	end
--- 	-- require("conf.decorations.gamemode")
--- end)
 
--- Legacy (Unused)
--- bind = $mainMod, S, exec, $HYPRSCRIPTS/screenshot.sh                                     # Take a screenshot
--- bind = $mainMod CTRL, F, exec, $HYPRSCRIPTS/screenshot.sh --instant                       # Take an instant full-screen screenshot
--- bind = $mainMod CTRL, S, exec, grimblast --notify copysave area                           # Take an instant area screenshot
--- bind = $mainMod SHIFT, S, exec, grimblast --notify copy area                              # Take an instant area screenshot and copy to clipboard
-
--- bind = $mainMod SHIFT, A, exec, $HYPRSCRIPTS/toggle-animations.sh                         # Toggle animations
--- bind = $mainMod ALT, A, exec, $HYPRSCRIPTS/text-extractor.sh                              # Extract text from an area
--- bind = $mainMod SHIFT, T, workspaceopt, allfloat                                            # Toggle all windows into floating mode
--- bind = ALT, H, focusmonitor, l                                                              # Focus left monitor
--- bind = ALT, L, focusmonitor, r                                                              # Focus right monitor
--- bind = $mainMod ALT, J, changegroupactive, f                                              # Next window in group
--- bind = $mainMod ALT, K, changegroupactive, b                                              # Prev window in group
--- bind = $mainMod ALT, L, changegroupactive, f                                                # Next window in group
--- bind = $mainMod ALT, H, changegroupactive, b                                                # Prev window in group
--- # bind = $mainMod ALT SHIFT, l, movegroupwindow
--- # bind = $mainMod ALT SHIFT, h, movegroupwindow, b
--- bind = $mainMod SHIFT, right, resizeactive, 100 0                                           # Increase window width with keyboard
--- bind = $mainMod SHIFT, left, resizeactive, -100 0                                           # Reduce window width with keyboard
--- bind = $mainMod SHIFT, down, resizeactive, 0 100                                            # Increase window height with keyboard
--- bind = $mainMod SHIFT, up, resizeactive, 0 -100                                             # Reduce window height with keyboard
--- bind = $mainMod, G, togglegroup                                                             # Toggle window group
---
---
---
--- # bind = $mainMod, Tab, workspace, m+1       # Open next workspace
--- # bind = $mainMod SHIFT, Tab, workspace, m-1 # Open previous workspace
---
--- bind = $mainMod CTRL, 1, exec, $HYPRSCRIPTS/moveTo.sh 1  # Move all windows to workspace 1
--- bind = $mainMod CTRL, 2, exec, $HYPRSCRIPTS/moveTo.sh 2  # Move all windows to workspace 2
--- bind = $mainMod CTRL, 3, exec, $HYPRSCRIPTS/moveTo.sh 3  # Move all windows to workspace 3
--- bind = $mainMod CTRL, 4, exec, $HYPRSCRIPTS/moveTo.sh 4  # Move all windows to workspace 4
--- bind = $mainMod CTRL, 5, exec, $HYPRSCRIPTS/moveTo.sh 5  # Move all windows to workspace 5
--- bind = $mainMod CTRL, 6, exec, $HYPRSCRIPTS/moveTo.sh 6  # Move all windows to workspace 6
--- bind = $mainMod CTRL, 7, exec, $HYPRSCRIPTS/moveTo.sh 7  # Move all windows to workspace 7
--- bind = $mainMod CTRL, 8, exec, $HYPRSCRIPTS/moveTo.sh 8  # Move all windows to workspace 8
--- bind = $mainMod CTRL, 9, exec, $HYPRSCRIPTS/moveTo.sh 9  # Move all windows to workspace 9
--- bind = $mainMod CTRL, 0, exec, $HYPRSCRIPTS/moveTo.sh 10 # Move all windows to workspace 10
---
--- bind = $mainMod, mouse_down, workspace, e+1  # Open next workspace
--- bind = $mainMod, mouse_up, workspace, e-1    # Open previous workspace
--- bind = $mainMod CTRL, down, workspace, empty # Open the next empty workspace
---
+local submap = require("lib.submap")
+submap.create(alt("R"), "resize", function()
+	-- Set repeating binds for resizing the active window.
+	bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+	bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
+	bind("up", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+	bind("down", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+end)
+submap.create(alt("Z"), "zoom", function()
+	bind("mouse_down", function()
+		hl.config({
+			cursor = {
+				zoom_factor = hl.get_config("cursor:zoom_factor") + 0.5,
+			},
+		})
+	end, { mouse = true, description = "Increease display zoom" })
+	bind("mouse_up", function()
+		hl.config({
+			cursor = {
+				zoom_factor = hl.get_config("cursor:zoom_factor") - 0.5,
+			},
+		})
+	end, { mouse = true, description = "Decrease display zoom" })
+end)
