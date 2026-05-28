@@ -27,6 +27,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			daily_notes = {
 				enabled = true,
 				folder = "Calendar/Daily",
+				template = "Atlas/Templates/Daily",
+				default_tags = {},
 			},
 			ui = { enable = false },
 			attachments = {
