@@ -18,7 +18,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	once = true,
 	callback = function()
 		vim.pack.add({
-			{ src = "https://github.com/mason-org/mason.nvim" },
 			{ src = "https://github.com/saghen/blink.lib" },
 			{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
 			{ src = "https://github.com/fang2hou/blink-copilot" },
@@ -28,7 +27,6 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 			{ src = "https://github.com/folke/lazydev.nvim" }, -- lua_ls devtools
 		})
 
-		require("mason").setup({})
 		require("lazydev").setup({
 			library = {
 				{ path = "snacks.nvim", words = { "Snacks" } },

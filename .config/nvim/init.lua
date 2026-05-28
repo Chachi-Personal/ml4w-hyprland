@@ -25,8 +25,10 @@ require("core.snacks")
 require("core.autocmds")
 
 -- Lsp Plugins
+require("lsp.mason")
 require("lsp")
 require("lsp.completion")
+require("lsp.dap")
 
 -- Plugins
 require("plugins")
