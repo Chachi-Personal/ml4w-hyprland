@@ -55,3 +55,12 @@ Snacks.image.config.enabled = false
 
 vim.opt_local.spell = true
 vim.opt_local.spelllang = { "en" }
+
+-- Typst-Preview
+vim.pack.add({
+	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
+})
+require("typst-preview").setup({
+	preview_on_save = true,
+	invert_colors = "never",
+})
