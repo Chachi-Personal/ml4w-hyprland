@@ -229,6 +229,34 @@ require("bufferline").setup({
 	},
 })
 
+vim.keymap.set("n", "<leader>bb", "<CMD>BufferLinePick<CR>", { desc = "Select buffer from tabline" })
+vim.keymap.set("n", "<leader>bd", "<CMD>BufferLinePickClose<CR>", { desc = "Close buffer from tabline" })
+-- <Leader>b\: Pick a buffer from tabline and open in horizontal split
+vim.keymap.set("n", "<Leader>b\\", function()
+	-- Store current buffer, trigger pick, then split with the new current buffer
+	local cur = vim.api.nvim_get_current_buf()
+	vim.cmd("BufferLinePick")
+	-- BufferLinePick is synchronous — after it returns, current buf has changed
+	local picked = vim.api.nvim_get_current_buf()
+	if picked ~= cur then
+		-- Restore original buffer in current window, then split with picked
+		vim.api.nvim_win_set_buf(0, cur)
+		vim.cmd("split")
+		vim.api.nvim_win_set_buf(0, picked)
+	end
+end, { desc = "Horizontal split buffer from tabline" })
+-- <Leader>b|: Pick a buffer from tabline and open in vertical split
+vim.keymap.set("n", "<Leader>b|", function()
+	local cur = vim.api.nvim_get_current_buf()
+	vim.cmd("BufferLinePick")
+	local picked = vim.api.nvim_get_current_buf()
+	if picked ~= cur then
+		vim.api.nvim_win_set_buf(0, cur)
+		vim.cmd("vsplit")
+		vim.api.nvim_win_set_buf(0, picked)
+	end
+end, { desc = "Vertical split buffer from tabline" })
+
 -- Noice
 vim.pack.add({
 	"https://github.com/MunifTanjim/nui.nvim",
