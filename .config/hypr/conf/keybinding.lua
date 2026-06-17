@@ -101,6 +101,7 @@ bind(
 	{ description = "Toggle active window to fullscreen" }
 )
 bind(mod("M"), function()
+	-- hl.dispatch(hl.dsp.window.fullscreen({ mode = "maximized" }))
 	hl.dispatch(hl.dsp.layout("colresize +conf"))
 	hl.dispatch(hl.dsp.layout("focus l"))
 	hl.dispatch(hl.dsp.layout("focus r"))
@@ -153,6 +154,7 @@ bind("PRINT", exec(HYPRSCRIPTS .. "/screenshot.sh"), { description = "Take a scr
 bind(modShift("S"), exec("grimblast --notify copy area"), { description = "Copy area to clipboard" })
 bind(altShift("S"), hl.dsp.exec_cmd('grim -g "$(slurp)" - | tesseract stdin stdout -l chi_sim | wl-copy'))
 
+bind(mod("S"), hl.dsp.exec_cmd("/usr/bin/env -C /home/chachi/Videos/tools/sub_extract uv run speak.py"))
 bind(alt("S"), hl.dsp.exec_cmd("/usr/bin/env -C /home/chachi/Videos/tools/sub_extract uv run ocr-screenshot.py --tts"))
 bind(
 	modAlt("F"),

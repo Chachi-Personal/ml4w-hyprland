@@ -5,6 +5,7 @@ hl.config({
 		initial_workspace_tracking = 1,
 		on_focus_under_fullscreen = 1,
 		allow_session_lock_restore = true,
+		middle_click_paste = true,
 	},
 	xwayland = {
 		force_zero_scaling = true,

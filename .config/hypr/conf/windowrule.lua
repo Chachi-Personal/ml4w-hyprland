@@ -12,6 +12,14 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "wechat-vid",
+	match = { initial_title = "^WeChat$", initial_class = "^$", xwayland = 1 },
+	size = { 440, 820 },
+	float = true,
+	pin = true,
+})
+
+hl.window_rule({
 	name = "borderless on maximized",
 	match = { fullscreen = true },
 	border_size = 0,
@@ -224,4 +232,11 @@ hl.window_rule({
 	float = true,
 	size = { 100, 50 },
 	move = { 10, 10 },
+})
+
+hl.window_rule({
+	name = "Local Send",
+	match = { class = "localsend", title = "LocalSend" },
+	float = true,
+	size = { 500, 680 },
 })
