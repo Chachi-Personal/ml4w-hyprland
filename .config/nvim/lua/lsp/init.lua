@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Autoformat toggle (simple flag approach)
 		map("n", "<leader>uf", function()
-			vim.b.autoformat = not vim.b.autoformat
+			vim.b.autoformat = not (vim.b.autoformat ~= false)
 			vim.notify("Autoformat " .. (vim.b.autoformat and "enabled" or "disabled") .. " (buffer)")
 		end, s("Toggle autoformat"))
 	end,

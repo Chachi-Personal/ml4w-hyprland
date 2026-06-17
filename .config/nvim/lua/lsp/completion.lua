@@ -151,7 +151,12 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 			},
-			format_on_save = { timeout_ms = 1000, lsp_fallback = true },
+			format_on_save = function(bufnr)
+				if vim.b[bufnr].autoformat == false then
+					return nil
+				end
+				return { timeout_ms = 1000, lsp_fallback = true }
+			end,
 		})
 	end,
 })
