@@ -30,21 +30,21 @@ env("GLFW_IM_MODULE", "fcitx")
 -- Environment Variables
 -- name: "Nvidia"
 -- -----------------------------------------------------
-env("LIBVA_DRIVER_NAME", "nvidia")
-env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- env("LIBVA_DRIVER_NAME", "nvidia")
+-- env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 
-env("GBM_BACKEND", "nvidia-drm")
-env("SDL_VIDEODRIVER", "wayland")
-env("__NV_PRIME_RENDER_OFFLOAD", "1")
-env("__VK_LAYER_NV_optimus", "NVIDIA_only")
-
-env("WLR_NO_HARDWARE_CURSORS", "1")
-env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
-
-env("MOZ_DISABLE_RDD_SANDBOX", "1")
-env("EGL_PLATFORM", "wayland")
-
-env("NVD_BACKEND", "direct")
+-- env("GBM_BACKEND", "nvidia-drm")
+-- env("SDL_VIDEODRIVER", "wayland")
+-- env("__NV_PRIME_RENDER_OFFLOAD", "1")
+-- env("__VK_LAYER_NV_optimus", "NVIDIA_only")
+--
+-- env("WLR_NO_HARDWARE_CURSORS", "1")
+-- env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
+--
+-- env("MOZ_DISABLE_RDD_SANDBOX", "1")
+-- env("EGL_PLATFORM", "wayland")
+--
+-- env("NVD_BACKEND", "direct")
 
 -- XDG Desktop Portal
 env("XDG_CURRENT_DESKTOP", "Hyprland")
@@ -72,8 +72,8 @@ env("XCURSOR_SIZE", "24")
 env("HYPRCURSOR_SIZE", "24")
 
 -- Ozone
-env("OZONE_PLATFORM", "wayland")
-env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
+-- env("OZONE_PLATFORM", "wayland")
+env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- SDL version
-env("SDL_VIDEODRIVER", "wayland")
+env("SDL_VIDEODRIVER", "wayland,x11")
