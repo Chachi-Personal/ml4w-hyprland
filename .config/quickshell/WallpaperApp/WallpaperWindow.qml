@@ -113,7 +113,7 @@ PanelWindow {
     Process {
         id: wallpaperScanner
         // find all jpg/jpeg/png recursively, print full path
-        command: ["find", Quickshell.env("HOME") + "/.config/ml4w/wallpapers", "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"]
+        command: ["find", Quickshell.env("HOME") + "/.config/ml4w/wallpapers", "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.webp", "-o", "-iname", "*.png", ")"]
 
         stdout: StdioCollector {
             onStreamFinished: {
@@ -149,7 +149,7 @@ PanelWindow {
                     rawPath = rawPath.replace("~", Quickshell.env("HOME"));
                     let cleanPath = rawPath.startsWith("file://") ? rawPath.slice(7) : rawPath;
 
-                    wallpaperScanner.command = ["find", cleanPath, "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.jpeg", "-o", "-iname", "*.png", ")"];
+                    wallpaperScanner.command = ["find", cleanPath, "-type", "f", "(", "-iname", "*.jpg", "-o", "-iname", "*.webp", "-o", "-iname", "*.png", ")"];
                     wallpaperScanner.running = true;
                     // Ensure the path starts with file:// for the FolderListModel
                     // let newPath = rawPath.startsWith("file://") ? rawPath : "file://" + rawPath;

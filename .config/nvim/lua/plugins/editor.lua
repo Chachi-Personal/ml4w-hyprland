@@ -116,6 +116,7 @@ au({ "BufReadPre", "BufNewFile" }, {
 		npairs.setup({
 			map_cr = true,
 			check_ts = true,
+			ignored_next_char = [=[[%w%%%'%[%\"%.%`]]=], -- removed %$ from default
 		})
 
 		npairs.add_rules({
@@ -124,7 +125,7 @@ au({ "BufReadPre", "BufNewFile" }, {
 			end),
 			Rule("*", "*", { "typst" }):with_pair(function()
 				local node = vim.treesitter.get_node({ ignore_injections = false })
-				local blocked = { math = true, math_group = true, formula = true, group = true }
+				local blocked = { math = true, math_group = true, formula = true, group = true, attach = true }
 
 				while node do
 					if blocked[node:type()] then
@@ -207,3 +208,10 @@ au({ "BufReadPre", "BufNewFile" }, {
 -- 	vim.pack.add({ "https://github.com/mrjones2014/smart-splits.nvim" })
 -- 	require("smart-splits").setup({})
 -- end)
+--
+defer(function()
+	vim.pack.add({
+		"https://github.com/aserowy/tmux.nvim",
+	})
+	require("tmux").setup()
+end)

@@ -240,3 +240,10 @@ hl.window_rule({
 	float = true,
 	size = { 500, 680 },
 })
+
+hl.window_rule({
+	name = "Pyplots",
+	match = { class = "Matplotlib" },
+	float = true,
+	center = true,
+})

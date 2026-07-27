@@ -61,6 +61,7 @@ vim.pack.add({
 	{ src = "https://github.com/chomosuke/typst-preview.nvim" },
 })
 require("typst-preview").setup({
+	open_cmd = "helium-browser %s --new-window",
 	preview_on_save = true,
 	invert_colors = "never",
 })
